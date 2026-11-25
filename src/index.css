@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+/* Design tokens from the Figma file "Landed" (page frame 21:2453). */
+@theme {
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-inter: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+
+  --color-ink: #0c0c0b;
+  --color-ink-black: #0b0b0b;
+  --color-cream: #fbf7f0;
+  --color-sand: #f3ecdf;
+  --color-sand-light: #f6eedf;
+  --color-gold: #d4a443;
+  --color-gold-deep: #a87a1e;
+  --color-gold-text: #8a6213;
+  --color-gold-soft: #bd9658;
+  --color-gold-line: #d4af72;
+  --color-gold-ring: #9a7943;
+  --color-muted: #6b6862;
+  --color-body: #4f4d49;
+  --color-faint: #8a8680;
+  --color-stone: #9a968f;
+  --color-stone-light: #bbb7af;
+  --color-stone-lighter: #e4e1db;
+  --color-alert: #b5422e;
+  --color-snow: #f5f5f5;
+  --color-mist: #ebedff;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  html,
+  body {
+    /* Figma "auto" line height maps to the font's normal line height. */
+    line-height: normal;
+  }
+
+  body {
+    @apply bg-white font-sans text-ink antialiased;
+    /* Figma renders DM Sans at its default optical size; browsers would otherwise auto-switch to the display cut at large sizes. */
+    font-optical-sizing: none;
+  }
+
+  section[id] {
+    scroll-margin-top: 16px;
+  }
+}
