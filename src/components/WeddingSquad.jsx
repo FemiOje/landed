@@ -20,6 +20,9 @@ const gbp = {
     (Number.isInteger(amount) ? wholePounds : poundsAndPence).format(amount),
 }
 
+const STEPPER_BUTTON =
+  'cursor-pointer rounded-full transition-[scale] duration-300 ease-spring motion-safe:enabled:hover:scale-110 motion-safe:enabled:active:scale-90 motion-safe:enabled:active:duration-75'
+
 function Stepper({ label, price, count, onChange }) {
   return (
     <div className="flex items-center justify-between rounded-[14px] bg-cream px-3.5 py-2.5">
@@ -33,18 +36,21 @@ function Stepper({ label, price, count, onChange }) {
           aria-label={`Remove one ${label} outfit`}
           disabled={count === 0}
           onClick={() => onChange(count - 1)}
-          className="rounded-full disabled:cursor-not-allowed"
+          className={`${STEPPER_BUTTON} disabled:cursor-not-allowed`}
         >
           <img src={minusIcon} width="34" height="34" alt="" className="block" />
         </button>
         <output aria-live="polite" className="min-w-[11px] text-center font-inter text-[16px] font-semibold">
-          {count}
+          {/* Re-keyed so the number bumps on every change; the live region itself stays mounted. */}
+          <span key={count} className="inline-block motion-safe:animate-bump">
+            {count}
+          </span>
         </output>
         <button
           type="button"
           aria-label={`Add one ${label} outfit`}
           onClick={() => onChange(count + 1)}
-          className="rounded-full"
+          className={STEPPER_BUTTON}
         >
           <img src={plusIcon} width="34" height="34" alt="" className="block" />
         </button>
@@ -63,7 +69,7 @@ export default function WeddingSquad() {
 
   // At design width Figma fixes this card at 394px; its content runs 15px into the bottom padding.
   return (
-    <div className="flex flex-col gap-3.5 rounded-[24px] bg-sand px-7 py-[30px] min-[1440px]:h-[394px]">
+    <div data-reveal="right" className="flex flex-col gap-3.5 rounded-[24px] bg-sand px-7 py-[30px] min-[1440px]:h-[394px]">
       <h3 className="text-[28px] leading-[36px] font-medium tracking-[-0.02em]">Going to a wedding as a group?</h3>
       <p className="font-inter text-[16px] leading-[25px] text-body">
         Wedding Squad: matching outfits for 6 or more, one person organises, all delivered to one
@@ -80,9 +86,18 @@ export default function WeddingSquad() {
       ))}
       <div className="flex justify-between font-inter text-[15px] leading-[18px] font-semibold">
         <span>
-          {outfitCount} {outfitCount === 1 ? 'outfit' : 'outfits'} · {gbp.format(total)} total
+          {outfitCount} {outfitCount === 1 ? 'outfit' : 'outfits'} ·{' '}
+          <span key={total} className="inline-block motion-safe:animate-bump">
+            {gbp.format(total)}
+          </span>{' '}
+          total
         </span>
-        <span>Half to start: {gbp.format(total / 2)}</span>
+        <span>
+          Half to start:{' '}
+          <span key={total} className="inline-block motion-safe:animate-bump">
+            {gbp.format(total / 2)}
+          </span>
+        </span>
       </div>
       <div className="flex-1" />
       <PillButton className="self-start">Book your squad's call</PillButton>

@@ -26,6 +26,33 @@
   --color-alert: #b5422e;
   --color-snow: #f5f5f5;
   --color-mist: #ebedff;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --animate-fade-up: fade-up 450ms var(--ease-out-expo) both;
+  --animate-slide-in: slide-in 500ms var(--ease-out-expo) both;
+  --animate-bump: bump 300ms var(--ease-spring);
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 8px, 0);
+    }
+  }
+
+  @keyframes slide-in {
+    from {
+      opacity: 0;
+      transform: translate3d(16px, 0, 0) scale(0.98);
+    }
+  }
+
+  @keyframes bump {
+    40% {
+      transform: scale(1.2);
+    }
+  }
 }
 
 /* Figma dashed stroke: 1px, 5px dash / 5px gap, ink at 20%, 24px radius. */
@@ -37,18 +64,169 @@
   font-optical-sizing: auto;
 }
 
-@keyframes fade-in {
+/*
+ * Scroll reveal. `useScrollReveal` sets `data-revealed` on each [data-reveal] element the first time it
+ * enters the viewport, plus a `--reveal-stagger` delay for elements that enter together.
+ *
+ * Reveals are keyframe animations on `opacity` and `transform` with backwards fill, so once they finish the
+ * element's own styles apply again. Tailwind's hover utilities use the separate `translate`/`scale`
+ * properties and `transition`, so they never fight a reveal.
+ *
+ * Values: up (default), fade, left, right, pop, rise, lines (children with `.reveal-line > *` slide up
+ * from behind a mask). left/right only travel sideways from lg up, so nothing overflows narrow screens.
+ */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 32px, 0);
+  }
+}
+
+@keyframes reveal-fade {
   from {
     opacity: 0;
   }
+}
+
+@keyframes reveal-left {
+  from {
+    opacity: 0;
+    transform: translate3d(-40px, 0, 0);
+  }
+}
+
+@keyframes reveal-right {
+  from {
+    opacity: 0;
+    transform: translate3d(40px, 0, 0);
+  }
+}
+
+@keyframes reveal-pop {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0) scale(0.92);
+  }
+}
+
+@keyframes reveal-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 45%, 0);
+  }
+}
+
+@keyframes reveal-line {
+  from {
+    transform: translate3d(0, 110%, 0);
+  }
+}
+
+@keyframes chat-bubble-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0) scale(0.94);
+  }
+}
+
+@keyframes hero-settle {
+  from {
+    scale: 1.08;
+  }
+}
+
+@keyframes hero-parallax {
   to {
-    opacity: 1;
+    translate: 0 22%;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] {
+    --reveal-name: reveal-up;
+    --reveal-duration: 900ms;
+    --reveal-delay-total: calc(var(--reveal-delay, 0ms) + var(--reveal-stagger, 0ms));
+  }
+  [data-reveal='fade'] {
+    --reveal-name: reveal-fade;
+    --reveal-duration: 1100ms;
+  }
+  [data-reveal='pop'] {
+    --reveal-name: reveal-pop;
+    --reveal-duration: 600ms;
+  }
+  [data-reveal='rise'] {
+    --reveal-name: reveal-rise;
+    --reveal-duration: 1600ms;
+  }
+  @media (width >= 64rem) {
+    [data-reveal='left'] {
+      --reveal-name: reveal-left;
+    }
+    [data-reveal='right'] {
+      --reveal-name: reveal-right;
+    }
+  }
+
+  [data-reveal]:not([data-reveal='lines'], [data-revealed]) {
+    opacity: 0;
+  }
+  [data-revealed]:not([data-reveal='lines']) {
+    animation: var(--reveal-name) var(--reveal-duration) var(--ease-out-expo) var(--reveal-delay-total)
+      backwards;
+  }
+
+  [data-reveal='lines']:not([data-revealed]) .reveal-line > * {
+    transform: translate3d(0, 110%, 0);
+  }
+  [data-reveal='lines'][data-revealed] .reveal-line > * {
+    animation: reveal-line 1100ms var(--ease-out-expo)
+      calc(var(--reveal-delay-total) + var(--line, 0) * 110ms) backwards;
+  }
+
+  /* Messages arrive one by one once the phone is on screen. */
+  [data-revealed] .chat-bubble {
+    transform-origin: var(--bubble-origin, left) bottom;
+    animation: chat-bubble-in 500ms var(--ease-spring) calc(500ms + var(--bubble, 0) * 550ms) backwards;
+  }
+
+  .hero-photo {
+    animation: hero-settle 2.4s var(--ease-out-expo) both;
+  }
+  /* Progressive enhancement: the hero photo drifts slower than the page where scroll timelines exist. */
+  @supports (animation-timeline: scroll()) {
+    .hero-photo {
+      animation:
+        hero-settle 2.4s var(--ease-out-expo) both,
+        hero-parallax linear both;
+      animation-timeline: auto, scroll(root);
+      animation-range: normal, 0 100vh;
+    }
+  }
+
+  /* FAQ answers glide open where the browser can animate to `height: auto`. */
+  @supports (interpolate-size: allow-keywords) {
+    :root {
+      interpolate-size: allow-keywords;
+    }
+    details::details-content {
+      block-size: 0;
+      overflow-y: clip;
+      transition:
+        block-size 450ms var(--ease-out-expo),
+        content-visibility 450ms allow-discrete;
+    }
+    details[open]::details-content {
+      block-size: auto;
+    }
   }
 }
 
 @layer base {
-  html {
-    scroll-behavior: smooth;
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 
   html,

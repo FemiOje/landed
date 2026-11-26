@@ -38,9 +38,12 @@ function SideButton({ side, top, height }) {
   )
 }
 
-function IncomingBubble({ time, children }) {
+// `order` sets when the bubble pops in after the phone scrolls into view (see .chat-bubble in index.css).
+function IncomingBubble({ order, time, children }) {
   return (
-    <div className="flex flex-col rounded-[5.6px_14.9px_14.9px_14.9px] bg-white px-[10.3px] pt-[8.4px] pb-[6.5px] shadow-[0_0.9px_1.9px_rgba(12,12,10,0.05)]">
+    <div
+      style={{ '--bubble': order }}
+      className="chat-bubble flex flex-col rounded-[5.6px_14.9px_14.9px_14.9px] bg-white px-[10.3px] pt-[8.4px] pb-[6.5px] shadow-[0_0.9px_1.9px_rgba(12,12,10,0.05)]">
       {children}
       <div className="flex justify-end pt-[2.8px] opacity-70">
         <span className={`${TIME} text-ink`}>{time}</span>
@@ -49,9 +52,11 @@ function IncomingBubble({ time, children }) {
   )
 }
 
-function OutgoingBubble({ time, children }) {
+function OutgoingBubble({ order, time, children }) {
   return (
-    <div className="flex w-[178.5px] flex-col self-end rounded-[14.9px_5.6px_14.9px_14.9px] bg-white px-[10.3px] pt-[8.4px] pb-[6.5px] shadow-[0_0.9px_1.9px_rgba(12,12,10,0.05)]">
+    <div
+      style={{ '--bubble': order, '--bubble-origin': 'right' }}
+      className="chat-bubble flex w-[178.5px] flex-col self-end rounded-[14.9px_5.6px_14.9px_14.9px] bg-white px-[10.3px] pt-[8.4px] pb-[6.5px] shadow-[0_0.9px_1.9px_rgba(12,12,10,0.05)]">
       <p className={`${MESSAGE} text-black`}>{children}</p>
       <div className="flex items-center justify-end gap-[3.7px] pt-[2.8px]">
         <span className={`${TIME} text-white/66`}>{time}</span>
@@ -99,10 +104,10 @@ export default function ChatPhone() {
           <span className="self-center rounded-full bg-white px-[8.4px] py-[4.7px] font-mono text-[9.3px] leading-[9.3px] font-medium tracking-[0.6px] text-muted uppercase">
             Sat, 20 Dec
           </span>
-          <IncomingBubble time="18:42">
+          <IncomingBubble order={0} time="18:42">
             <p className={`${MESSAGE} w-[203.7px]`}>Evening Tolu! Your shoot photos are in.</p>
           </IncomingBubble>
-          <IncomingBubble time="18:43">
+          <IncomingBubble order={1} time="18:43">
             <div className="h-[141px]">
               <img
                 src={shootPhoto}
@@ -114,8 +119,8 @@ export default function ChatPhone() {
               {' This one’s the cover, trust me.'}
             </p>
           </IncomingBubble>
-          <OutgoingBubble time="18:51">Obsessed. Mum wants copies!</OutgoingBubble>
-          <IncomingBubble time="18:53">
+          <OutgoingBubble order={2} time="18:51">Obsessed. Mum wants copies!</OutgoingBubble>
+          <IncomingBubble order={3} time="18:53">
             <p className={`${MESSAGE} w-[203.7px]`}>
               Haha. Tonight: Chidi meets you at 9, security’s with him. Wear the green aso-oke.
             </p>

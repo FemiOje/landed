@@ -28,19 +28,24 @@ function cropStyle({ x, y, width, height }) {
 
 function TeamMember({ name, role, photo, crop, isPlaceholder }) {
   return (
-    <li>
-      <figure className="flex flex-col gap-3">
+    <li data-reveal="up">
+      <figure className="group flex flex-col gap-3">
         <div className="relative aspect-[289.5/361.9] overflow-hidden rounded-[20px] border border-ink/15">
-          <img
-            src={photo}
-            alt={isPlaceholder ? `${role} at Landed` : `${name}, ${role}`}
-            loading="lazy"
-            style={crop && cropStyle(crop)}
-            className={crop ? 'absolute max-w-none' : 'size-full object-cover'}
-          />
+          {/* Zoom a full-size wrapper, not the image, so cropped photos scale around the visible centre. */}
+          <div className="absolute inset-0 transition-transform duration-700 ease-out-expo motion-safe:group-hover:scale-[1.05]">
+            <img
+              src={photo}
+              alt={isPlaceholder ? `${role} at Landed` : `${name}, ${role}`}
+              loading="lazy"
+              style={crop && cropStyle(crop)}
+              className={crop ? 'absolute max-w-none' : 'size-full object-cover'}
+            />
+          </div>
         </div>
         <figcaption className="font-inter">
-          <p className="text-[16px] leading-[25.6px] font-medium">{name}</p>
+          <p className="text-[16px] leading-[25.6px] font-medium transition-colors duration-300 group-hover:text-gold-text">
+            {name}
+          </p>
           <p className="text-[14px] leading-[22.4px] text-muted">{role}</p>
         </figcaption>
       </figure>

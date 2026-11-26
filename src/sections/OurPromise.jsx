@@ -3,7 +3,7 @@ import companyIcon from '../assets/icons/promise-company.svg'
 import docIcon from '../assets/icons/promise-doc.svg'
 import shieldIcon from '../assets/icons/promise-shield.svg'
 import TailorCarousel from '../components/TailorCarousel'
-import { Eyebrow, Placeholder, SectionTitle } from '../components/ui'
+import { CARD_HOVER, Eyebrow, Placeholder, SectionTitle } from '../components/ui'
 import { LINKS } from '../config'
 
 const PROMISES = [
@@ -40,15 +40,22 @@ const PROMISES = [
 function PromiseCard({ icon, title, body, link, tight }) {
   return (
     <article
-      className={`flex flex-col rounded-[20px] border border-ink/8 bg-white p-7 min-[1440px]:h-[286px] ${tight ? 'gap-[9px]' : 'gap-3.5'}`}
+      data-reveal="up"
+      className={`group flex flex-col rounded-[20px] border border-ink/8 bg-white p-7 hover:border-ink/14 ${CARD_HOVER} min-[1440px]:h-[286px] ${tight ? 'gap-[9px]' : 'gap-3.5'}`}
     >
-      <img src={icon} width="44" height="44" alt="" />
+      <img
+        src={icon}
+        width="44"
+        height="44"
+        alt=""
+        className="transition-transform duration-500 ease-spring motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:scale-110"
+      />
       <h3 className="text-[22px] font-medium tracking-[-0.01em]">{title}</h3>
       <p className="font-inter text-[15px] leading-6 text-body">{body}</p>
       {link && (
         <a
           href={link.href}
-          className="self-start font-inter text-[14px] font-medium whitespace-pre hover:underline"
+          className="self-start font-inter text-[14px] font-medium whitespace-pre underline-offset-4 transition-colors hover:text-gold-text hover:underline"
         >
           {link.label}
         </a>

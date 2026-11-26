@@ -25,13 +25,19 @@ const TAILORS = [
 
 function TailorVideo({ tailor }) {
   return (
-    <div className="relative grid h-[270px] w-[220px] shrink-0 place-items-center overflow-hidden rounded-[14px] motion-safe:animate-[fade-in_300ms_ease-out]">
+    <div className="group/video relative grid h-[270px] w-[220px] shrink-0 place-items-center overflow-hidden rounded-[14px] motion-safe:animate-slide-in">
       <img
         src={tailor.image}
         alt={tailor.name ? `${tailor.name}, ${tailor.role}` : ''}
-        className="absolute inset-0 size-full object-cover"
+        className="absolute inset-0 size-full object-cover transition-transform duration-700 ease-out-expo motion-safe:group-hover/video:scale-[1.04]"
       />
-      <img src={playIcon} width="46" height="46" alt="" className="relative" />
+      <img
+        src={playIcon}
+        width="46"
+        height="46"
+        alt=""
+        className="relative transition-transform duration-500 ease-spring motion-safe:group-hover/video:scale-115"
+      />
       <span className="absolute top-[237px] left-2.5 rounded-[6px] bg-black/50 px-2 py-[5px] font-mono text-[10px] font-medium tracking-[0.04em] text-white uppercase">
         {tailor.name ?? '[name]'}’s 20-second hello
       </span>
@@ -41,7 +47,7 @@ function TailorVideo({ tailor }) {
 
 function TailorDetails({ tailor }) {
   return (
-    <div className="flex flex-col gap-3.5 motion-safe:animate-[fade-in_300ms_ease-out] xl:w-[380px] xl:shrink-0">
+    <div className="flex flex-col gap-3.5 motion-safe:animate-fade-up motion-safe:[animation-delay:80ms] xl:w-[380px] xl:shrink-0">
       <p className="text-[14px] font-medium text-gold-text">
         MEET {tailor.name ? tailor.name.toUpperCase() : <Placeholder>[NAME]</Placeholder>}
       </p>
@@ -69,6 +75,7 @@ export default function TailorCarousel() {
 
   return (
     <article
+      data-reveal="up"
       aria-roledescription="carousel"
       aria-label="Meet the Lagos team"
       className="flex flex-col gap-7 rounded-[20px] border border-ink/8 bg-white p-7 xl:flex-row xl:items-center"
@@ -86,12 +93,12 @@ export default function TailorCarousel() {
                 type="button"
                 onClick={() => setActive(index)}
                 aria-label={`Show ${next.name ?? `tailor ${index + 1}`}${position === 0 ? ' (next)' : ''}`}
-                className="group size-full cursor-pointer overflow-hidden rounded-[14px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-deep"
+                className="group size-full cursor-pointer overflow-hidden rounded-[14px] transition-[scale] duration-150 ease-out motion-safe:active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-deep"
               >
                 <img
                   src={next.image}
                   alt=""
-                  className="size-full object-cover transition-transform duration-300 motion-safe:group-hover:scale-[1.03]"
+                  className="size-full object-cover transition-transform duration-500 ease-out-expo motion-safe:animate-[reveal-fade_500ms_ease-out] motion-safe:group-hover:scale-[1.05]"
                 />
               </button>
             </li>

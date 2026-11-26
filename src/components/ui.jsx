@@ -20,8 +20,13 @@ const EYEBROW_TONES = {
   gold: 'font-semibold text-gold',
 }
 
+// Section headings reveal on scroll by default (see useScrollReveal).
 export function Eyebrow({ tone = 'deep', className = '', children }) {
-  return <p className={`text-[18px] ${EYEBROW_TONES[tone]} ${className}`}>{children}</p>
+  return (
+    <p data-reveal="up" className={`text-[18px] ${EYEBROW_TONES[tone]} ${className}`}>
+      {children}
+    </p>
+  )
 }
 
 export function SectionTitle({
@@ -33,6 +38,7 @@ export function SectionTitle({
 }) {
   return (
     <Tag
+      data-reveal="up"
       className={`text-[40px] leading-none font-medium md:text-[64px] ${tracking} ${className}`}
       {...props}
     >
@@ -40,6 +46,24 @@ export function SectionTitle({
     </Tag>
   )
 }
+
+// Wraps each line in a mask so it can slide up into place; pair with data-reveal="lines" on the heading.
+export function MaskedLines({ lines }) {
+  return lines.map((line, i) => (
+    // The padding/negative-margin pair keeps descenders inside the mask without changing the line box.
+    <span key={i} className="reveal-line -mb-[0.12em] block overflow-hidden pb-[0.12em]" style={{ '--line': i }}>
+      <span className="block">{line}</span>
+    </span>
+  ))
+}
+
+// Shared press feedback: a small lift on hover, a squeeze on click.
+export const PRESSABLE =
+  'transition-[opacity,translate,scale,box-shadow,background-color] duration-300 ease-out-expo motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-safe:active:scale-[0.97] motion-safe:active:duration-100'
+
+// Cards lift and deepen their shadow on hover; pair with `group` to animate children too.
+export const CARD_HOVER =
+  'transition-[translate,box-shadow,border-color] duration-500 ease-out-expo motion-safe:hover:-translate-y-1 hover:shadow-[0_22px_44px_-24px_rgba(12,12,10,0.28)]'
 
 const BUTTON_VARIANTS = {
   outline: 'border-[1.5px] border-gold-line bg-white',
@@ -50,7 +74,7 @@ export function PillButton({ href = LINKS.bookCall, variant = 'outline', classNa
   return (
     <a
       href={href}
-      className={`inline-flex h-[52px] items-center justify-center rounded-full px-7 font-inter text-[15px] font-medium text-ink transition-opacity hover:opacity-85 ${BUTTON_VARIANTS[variant]} ${className}`}
+      className={`inline-flex h-[52px] items-center justify-center rounded-full px-7 font-inter text-[15px] font-medium text-ink hover:opacity-85 hover:shadow-[0_8px_20px_-8px_rgba(168,122,31,0.45)] ${PRESSABLE} ${BUTTON_VARIANTS[variant]} ${className}`}
     >
       {children}
     </a>
@@ -63,10 +87,16 @@ export function BookCallButton({ outlined = false, className = '' }) {
   return (
     <a
       href={LINKS.bookCall}
-      className={`inline-flex items-center gap-4 rounded-[62px] bg-ink-black text-[16px] text-mist transition-opacity hover:opacity-90 ${box} ${className}`}
+      className={`group/call inline-flex items-center gap-4 rounded-[62px] bg-ink-black text-[16px] text-mist hover:opacity-90 hover:shadow-[0_10px_24px_-10px_rgba(0,0,0,0.6)] ${PRESSABLE} ${box} ${className}`}
     >
       Book your free december call
-      <img src={whatsappIcon} width="24" height="24" alt="" />
+      <img
+        src={whatsappIcon}
+        width="24"
+        height="24"
+        alt=""
+        className="transition-transform duration-500 ease-spring motion-safe:group-hover/call:-rotate-12 motion-safe:group-hover/call:scale-110"
+      />
     </a>
   )
 }

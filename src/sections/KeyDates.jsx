@@ -1,4 +1,4 @@
-import { Eyebrow, SectionTitle } from '../components/ui'
+import { CARD_HOVER, Eyebrow, SectionTitle } from '../components/ui'
 
 const DATES = [
   {
@@ -22,7 +22,10 @@ const DATES = [
 
 function DateCard({ date, title, body, dateClass = 'text-[28px]' }) {
   return (
-    <li className="flex flex-col rounded-[21.2px] border-[1.1px] border-[#e5e5e5] bg-white p-[24.4px] lg:h-[240px]">
+    <li
+      data-reveal="up"
+      className={`flex flex-col rounded-[21.2px] border-[1.1px] border-[#e5e5e5] bg-white p-[24.4px] lg:h-[240px] ${CARD_HOVER}`}
+    >
       <span className="flex h-[29.7px] items-center self-start rounded-full bg-ink-black px-[12.7px] text-[14px] font-medium text-snow">
         UPCOMING
       </span>
@@ -42,7 +45,7 @@ export default function KeyDates() {
             <Eyebrow>KEY DATES</Eyebrow>
             <SectionTitle id="key-dates-title">Order early</SectionTitle>
           </div>
-          <p className="max-w-[860px] text-[18px] text-body md:text-[22px]">
+          <p data-reveal="up" className="max-w-[860px] text-[18px] text-body md:text-[22px]">
             Order at least 14 days before you land, because good tailoring takes time. Agbada and
             lace by 6 December, everything else by 10 December.
           </p>

@@ -27,11 +27,12 @@ const STEPS = [
 function TimelineStep({ label, body, isLast }) {
   return (
     <li
-      className={`relative flex flex-col gap-2.5 pl-9 ${isLast ? 'pb-[39px]' : 'border-l border-ink/12 pb-[67px]'}`}
+      data-reveal="left"
+      className={`group relative flex flex-col gap-2.5 pl-9 ${isLast ? 'pb-[39px]' : 'border-l border-ink/12 pb-[67px]'}`}
     >
       <span
         aria-hidden="true"
-        className={`absolute top-px left-[-6.5px] size-[13px] rounded-full border-[1.5px] border-gold-deep ${isLast ? 'bg-gold-deep' : 'bg-white'}`}
+        className={`absolute top-px left-[-6.5px] size-[13px] rounded-full border-[1.5px] border-gold-deep transition-[scale,background-color] duration-300 ease-spring group-hover:scale-125 ${isLast ? 'bg-gold-deep' : 'bg-white group-hover:bg-gold'}`}
       />
       <h3 className="text-[16px] font-medium text-gold-text">{label}</h3>
       <p className="text-[18px] leading-[28px]">{body}</p>
@@ -54,7 +55,7 @@ export default function HowItWorks() {
             ))}
           </ol>
         </div>
-        <div className="flex justify-center pb-[25px] lg:min-w-[317.6px] lg:shrink lg:basis-[509.8px]">
+        <div data-reveal="right" className="flex justify-center pb-[25px] lg:min-w-[317.6px] lg:shrink lg:basis-[509.8px]">
           <ChatPhone />
         </div>
       </div>

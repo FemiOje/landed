@@ -4,7 +4,7 @@ import nightIcon from '../assets/icons/why-night.svg'
 import outfitIcon from '../assets/icons/why-outfit.svg'
 import poundIcon from '../assets/icons/why-pound.svg'
 import ticketIcon from '../assets/icons/why-ticket.svg'
-import { Eyebrow, SectionTitle } from '../components/ui'
+import { CARD_HOVER, Eyebrow, SectionTitle } from '../components/ui'
 
 const FEATURES = [
   {
@@ -41,9 +41,18 @@ const FEATURES = [
 
 function FeatureCard({ icon, index, title, body }) {
   return (
-    <article className="flex flex-col gap-3.5 overflow-hidden rounded-[20px] border border-ink/8 bg-white p-[26px] min-[1440px]:h-[235px]">
+    <article
+      data-reveal="up"
+      className={`group flex flex-col gap-3.5 overflow-hidden rounded-[20px] border border-ink/8 bg-white p-[26px] hover:border-ink/14 min-[1440px]:h-[235px] ${CARD_HOVER}`}
+    >
       <div className="flex items-center justify-between">
-        <img src={icon} width="40" height="40" alt="" />
+        <img
+          src={icon}
+          width="40"
+          height="40"
+          alt=""
+          className="transition-transform duration-500 ease-spring motion-safe:group-hover:-rotate-6 motion-safe:group-hover:scale-110"
+        />
         <span className="text-[14px] font-medium text-muted">{String(index).padStart(2, '0')}</span>
       </div>
       <h3 className="text-[22px] font-medium">{title}</h3>

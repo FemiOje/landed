@@ -3,6 +3,7 @@ import arrowIcon from '../assets/icons/arrow-right.svg'
 import calendarIcon from '../assets/icons/calendar.svg'
 import lockIcon from '../assets/icons/lock.svg'
 import { INSIDER_MAP_FORM_ACTION } from '../config'
+import { PRESSABLE } from './ui'
 
 const DATE_PATTERN = '\\d{2}/\\d{2}/\\d{4}'
 
@@ -18,7 +19,7 @@ function Field({ label, icon, ref, ...inputProps }) {
       <label htmlFor={id} className="font-inter text-[13px] font-medium text-body">
         {label}
       </label>
-      <div className="flex h-[50px] items-center gap-2.5 rounded-[12px] border border-ink/12 bg-cream px-3.5 focus-within:border-gold-deep focus-within:ring-2 focus-within:ring-gold/30">
+      <div className="flex h-[50px] items-center gap-2.5 rounded-[12px] border border-ink/12 bg-cream px-3.5 transition-[border-color,box-shadow,background-color] duration-300 hover:border-ink/24 focus-within:border-gold-deep focus-within:bg-white focus-within:ring-2 focus-within:ring-gold/30">
         {icon && <img src={icon} width="20" height="20" alt="" className="shrink-0" />}
         <input
           ref={ref}
@@ -94,17 +95,23 @@ export default function InsiderMapForm({ className = '' }) {
       </div>
       <button
         type="submit"
-        className="flex h-14 items-center justify-center gap-2.5 rounded-full bg-gold text-[14px] font-medium text-ink transition-opacity hover:opacity-90"
+        className={`group/submit flex h-14 cursor-pointer items-center justify-center gap-2.5 rounded-full bg-gold text-[14px] font-medium text-ink hover:opacity-90 hover:shadow-[0_10px_24px_-10px_rgba(212,164,67,0.8)] ${PRESSABLE}`}
       >
         Send me the Insider Map
-        <img src={arrowIcon} width="20" height="20" alt="" />
+        <img
+          src={arrowIcon}
+          width="20"
+          height="20"
+          alt=""
+          className="transition-transform duration-300 ease-out-expo motion-safe:group-hover/submit:translate-x-1"
+        />
       </button>
       <p className="flex items-center gap-2 font-inter text-[13px] text-muted">
         <img src={lockIcon} width="18" height="18" alt="" />
         Free. No payment details needed.
       </p>
       {notConnected && (
-        <p role="status" className="font-inter text-[13px] text-alert">
+        <p role="status" className="font-inter text-[13px] text-alert motion-safe:animate-fade-up">
           Sign-ups aren't connected yet. Please message us on WhatsApp for your map.
         </p>
       )}

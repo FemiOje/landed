@@ -60,7 +60,7 @@ export default function Comparison() {
           <Eyebrow tone="soft">LANDED VS DOING IT YOURSELF</Eyebrow>
           <SectionTitle id="compare-title">Why not just sort December yourself?</SectionTitle>
         </div>
-        <div className="overflow-x-auto rounded-[20px] border border-ink/8 bg-white shadow-[0_1px_2px_rgba(12,12,10,0.05)]">
+        <div data-reveal="up" className="overflow-x-auto rounded-[20px] border border-ink/8 bg-white shadow-[0_1px_2px_rgba(12,12,10,0.05)]">
           <table className="w-full min-w-[760px] table-fixed border-collapse">
             <colgroup>
               <col className="w-[180px] md:w-[300px]" />
@@ -82,7 +82,11 @@ export default function Comparison() {
             </thead>
             <tbody>
               {ROWS.map((row) => (
-                <tr key={row.label} className="border-t border-ink/8">
+                <tr
+                  key={row.label}
+                  data-reveal="fade"
+                  className="border-t border-ink/8 transition-colors duration-300 hover:bg-cream/60"
+                >
                   <th scope="row" className={`${BODY_CELL} text-left font-medium`}>
                     {row.label}
                   </th>

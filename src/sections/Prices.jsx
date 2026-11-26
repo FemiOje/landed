@@ -1,7 +1,7 @@
 import checkIcon from '../assets/icons/check-gold.svg'
 import checkLightIcon from '../assets/icons/check-gold-light.svg'
 import WeddingSquad from '../components/WeddingSquad'
-import { Eyebrow, PillButton, SectionTitle } from '../components/ui'
+import { CARD_HOVER, Eyebrow, PillButton, SectionTitle } from '../components/ui'
 
 const EVERY_OPTION = [
   'Your December planned with you on a free call',
@@ -86,7 +86,8 @@ function PlanCard({ dark, pill, name, tagline, price, unit, priceNote, includes,
 
   return (
     <article
-      className={`flex flex-col gap-5 rounded-[24px] px-7 py-[30px] ${
+      data-reveal="up"
+      className={`flex flex-col gap-5 rounded-[24px] px-7 py-[30px] ${CARD_HOVER} ${
         dark
           ? 'bg-ink text-white shadow-[0_12px_32px_rgba(12,12,10,0.18)]'
           : 'border border-ink/8 bg-white shadow-[0_1px_2px_rgba(12,12,10,0.05)]'
@@ -129,7 +130,10 @@ function PlanCard({ dark, pill, name, tagline, price, unit, priceNote, includes,
 
 function OutfitCard() {
   return (
-    <div className="flex flex-col gap-4 rounded-[24px] bg-sand px-7 py-[30px] min-[1440px]:h-[394px]">
+    <div
+      data-reveal="left"
+      className="flex flex-col gap-4 rounded-[24px] bg-sand px-7 py-[30px] min-[1440px]:h-[394px]"
+    >
       <h3 className="text-[28px] leading-[36px] font-medium tracking-[-0.02em]">Just here for the outfit?</h3>
       <p className="font-inter text-[16px] leading-[25px] text-body">
         Senator, kaftan or ankara from <strong className="font-semibold text-ink">£195</strong>.
@@ -151,12 +155,14 @@ export default function Prices() {
             <Eyebrow tone="soft">PRICES</Eyebrow>
             <SectionTitle id="prices-title">Pick your December.</SectionTitle>
           </div>
-          <p className="text-[22px] leading-[30px] font-medium text-gold-text italic md:text-[26px] md:leading-[34px]">
+          <p
+            data-reveal="up"
+            className="text-[22px] leading-[30px] font-medium text-gold-text italic md:text-[26px] md:leading-[34px]">
             Half to start. The rest before you land, once you've seen your outfit.
           </p>
         </div>
 
-        <div className="flex flex-col gap-4 rounded-[20px] bg-sand px-7 py-6">
+        <div data-reveal="up" className="flex flex-col gap-4 rounded-[20px] bg-sand px-7 py-6">
           <h3 className="font-inter text-[16px] leading-[19px] font-semibold">Every option comes with</h3>
           <ul className="flex flex-wrap gap-x-7 gap-y-3">
             {EVERY_OPTION.map((item) => (
@@ -178,13 +184,14 @@ export default function Prices() {
           <WeddingSquad />
         </div>
 
-        <div className="dashed-border flex flex-col gap-[18px] rounded-[24px] px-7 py-[30px]">
+        <div data-reveal="up" className="dashed-border flex flex-col gap-[18px] rounded-[24px] px-7 py-[30px]">
           <h3 className="text-[28px] leading-[36px] font-medium tracking-[-0.02em]">Add to any option</h3>
           <ul className="flex flex-wrap gap-2.5">
             {ADD_ONS.map((item) => (
               <li
                 key={item}
-                className="rounded-full bg-sand px-4 py-2.5 font-inter text-[15px] leading-[18px] text-body"
+                data-reveal="pop"
+                className="rounded-full bg-sand px-4 py-2.5 font-inter text-[15px] leading-[18px] text-body transition-[background-color,color,translate] duration-300 ease-out-expo hover:bg-sand-light hover:text-ink motion-safe:hover:-translate-y-0.5"
               >
                 {item}
               </li>

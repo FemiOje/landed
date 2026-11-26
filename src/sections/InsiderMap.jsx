@@ -32,13 +32,14 @@ export default function InsiderMap() {
               Our Lagos guide, for the dates you’re there.
             </SectionTitle>
           </div>
-          <p className="font-inter text-[18px] leading-7 text-white/78">
+          <p data-reveal="up" className="font-inter text-[18px] leading-7 text-white/78">
             From our team on the ground. Free, in return for your name, email and travel dates.
           </p>
           <ul className="flex flex-wrap gap-2.5">
             {BADGES.map((badge) => (
               <li
                 key={badge}
+                data-reveal="pop"
                 className="flex items-center gap-2 rounded-full border border-white/14 bg-white/8 px-3.5 py-[9px] font-inter text-[13px] font-medium text-white/90"
               >
                 <img src={dotIcon} width="8" height="8" alt="" />
@@ -49,13 +50,13 @@ export default function InsiderMap() {
         </div>
 
         {/* The map card overhangs this block by ~108px on the right, as in Figma; the margin keeps it on screen below xl. */}
-        <div className="relative w-full max-w-[440px] shrink-0 lg:mr-[clamp(0px,calc(100vw-1100px),88px)] lg:h-[600px] lg:w-[520px] lg:max-w-none xl:mr-[clamp(0px,calc(1440px-100vw),28px)]">
+        <div data-reveal="right" className="relative w-full max-w-[440px] shrink-0 lg:mr-[clamp(0px,calc(100vw-1100px),88px)] lg:h-[600px] lg:w-[520px] lg:max-w-none xl:mr-[clamp(0px,calc(1440px-100vw),28px)]">
           <img
             src={mapCard}
             width="339"
             height="410"
             alt=""
-            className="absolute top-[-10px] left-[290.3px] hidden lg:block"
+            className="absolute top-[-10px] left-[290.3px] hidden origin-bottom-left transition-[rotate,translate] duration-700 ease-spring motion-safe:hover:translate-y-[-6px] motion-safe:hover:rotate-2 lg:block"
           />
           <InsiderMapForm className="relative lg:absolute lg:top-[61px] lg:left-0 lg:w-[440px]" />
         </div>

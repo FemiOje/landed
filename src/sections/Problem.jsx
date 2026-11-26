@@ -13,18 +13,18 @@ export default function Problem() {
     <section aria-labelledby="problem-title" className="bg-cream">
       <div className="mx-auto flex max-w-[1440px] flex-col gap-9 px-5 py-16 md:px-10 md:py-24 xl:px-20 xl:pt-[109px] xl:pb-[120px]">
         <div className="flex flex-col gap-2">
-          <h2 id="problem-title" className={`${STATEMENT} text-ink`}>
+          <h2 data-reveal="up" id="problem-title" className={`${STATEMENT} text-ink`}>
             You know how December goes.
           </h2>
           {PROBLEMS.map((line) => (
-            <p key={line} className={`${STATEMENT} text-faint`}>
+            <p key={line} data-reveal="up" className={`${STATEMENT} text-faint`}>
               {line}
             </p>
           ))}
         </div>
         <div className="flex flex-col gap-2">
-          <p className={`${STATEMENT} text-gold-soft italic`}>Not this year.</p>
-          <p className={`${STATEMENT} text-ink`}>This year, Landed takes care of you.</p>
+          <p data-reveal="up" className={`${STATEMENT} text-gold-soft italic`}>Not this year.</p>
+          <p data-reveal="up" className={`${STATEMENT} text-ink`}>This year, Landed takes care of you.</p>
         </div>
       </div>
     </section>

@@ -1,5 +1,4 @@
 import chevronIcon from '../assets/icons/faq-chevron.svg'
-import chevronOpenIcon from '../assets/icons/faq-chevron-open.svg'
 import { Eyebrow, SectionTitle } from '../components/ui'
 
 const QUESTIONS = [
@@ -34,25 +33,27 @@ const QUESTIONS = [
   },
 ]
 
-// The chevron SVGs are 43×43 with their rotation baked in; negative margins keep them in a 30px slot.
-const CHEVRON = 'm-[-6.5px] shrink-0'
+// The chevron SVG is 43×43; negative margins keep it in a 30px slot. The open state in Figma is the same
+// icon turned a quarter, so it rotates instead of swapping images.
+const CHEVRON =
+  'm-[-6.5px] shrink-0 transition-transform duration-500 ease-spring group-open:rotate-90 motion-safe:group-hover:scale-110'
 
 function FaqItem({ question, answer, defaultOpen }) {
   return (
-    <details name="faq" open={defaultOpen} className="group border-b border-ink/8 first:border-t">
+    <details
+      name="faq"
+      open={defaultOpen}
+      data-reveal="up"
+      className="group border-b border-ink/8 first:border-t"
+    >
       {/* Closed rows in Figma centre their content in an 82.4px box cropped to 71px, so it sits 6px low. */}
       <summary className="flex cursor-pointer list-none items-center justify-between gap-6 pt-[26.2px] pb-[13.8px] group-open:py-5 [&::-webkit-details-marker]:hidden">
-        <span className="text-[18px] leading-[24.3px] font-medium tracking-[-0.2px]">{question}</span>
-        <img src={chevronIcon} width="43" height="43" alt="" className={`${CHEVRON} group-open:hidden`} />
-        <img
-          src={chevronOpenIcon}
-          width="43"
-          height="43"
-          alt=""
-          className={`${CHEVRON} hidden group-open:block`}
-        />
+        <span className="text-[18px] leading-[24.3px] font-medium tracking-[-0.2px] transition-colors duration-300 group-hover:text-gold-text">
+          {question}
+        </span>
+        <img src={chevronIcon} width="43" height="43" alt="" className={CHEVRON} />
       </summary>
-      <p className="max-w-[640px] pr-11 pb-[22px] font-inter text-[16px] leading-[25.6px] text-body">
+      <p className="max-w-[640px] pr-11 pb-[22px] font-inter text-[16px] leading-[25.6px] text-body motion-safe:group-open:animate-fade-up">
         {answer}
       </p>
     </details>
@@ -73,7 +74,7 @@ export default function Faq() {
           >
             Questions before you book
           </SectionTitle>
-          <p className="mt-[14.5px] font-inter text-[18px] leading-[28.8px] text-body">
+          <p data-reveal="up" className="mt-[14.5px] font-inter text-[18px] leading-[28.8px] text-body">
             Anything else, message us on WhatsApp.
           </p>
         </div>

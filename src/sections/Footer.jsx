@@ -29,7 +29,8 @@ const POLICIES = [
   { label: 'Cookies', href: LINKS.cookies },
 ]
 
-const LINK = 'font-inter text-[15px] text-white/85 transition-colors hover:text-white'
+const LINK =
+  'font-inter text-[15px] text-white/85 transition-[color,translate] duration-300 ease-out-expo hover:text-white motion-safe:hover:translate-x-1'
 
 function Gold({ children }) {
   return <span className="text-gold">{children}</span>
@@ -37,7 +38,7 @@ function Gold({ children }) {
 
 function Column({ title, children }) {
   return (
-    <div className="flex flex-col gap-3.5 lg:w-[200px] lg:shrink-0">
+    <div data-reveal="up" className="flex flex-col gap-3.5 lg:w-[200px] lg:shrink-0">
       {/* Figma: gold text with a 20% black fill layered on top. */}
       <h2 className="text-[14px] leading-[18px] font-medium text-[#aa8336]">{title}</h2>
       <ul className="flex flex-col gap-3 pt-1.5 font-inter text-[15px] leading-[18px]">{children}</ul>
@@ -50,7 +51,7 @@ export default function Footer() {
     <footer className="overflow-hidden bg-ink">
       <div className="mx-auto flex max-w-[1440px] flex-col px-5 pt-16 md:px-10 xl:px-[100px] xl:pt-[88px]">
         <div className="flex flex-col gap-12 lg:flex-row lg:gap-16">
-          <div className="flex flex-col gap-[18px] lg:w-[420px] lg:shrink-0">
+          <div data-reveal="up" className="flex flex-col gap-[18px] lg:w-[420px] lg:shrink-0">
             <Logo className="text-[34px]" />
             <p className="font-inter text-[16px] leading-[25px] text-white/62">
               Your December in Lagos, taken care of. Planned with you from London, handled by our
@@ -62,7 +63,7 @@ export default function Footer() {
             <Column title="EXPLORE">
               {EXPLORE.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} className={LINK}>
+                  <a href={link.href} className={`inline-block ${LINK}`}>
                     {link.label}
                   </a>
                 </li>
@@ -116,7 +117,7 @@ export default function Footer() {
         {/* Wordmark: 360px "Landed" fading from 10% white at the top to transparent, cropped by a 290px box.
             Right padding offsets the trailing letter-spacing so the glyphs centre like Figma. */}
         <div aria-hidden="true" className="relative h-[120px] overflow-hidden md:h-[200px] xl:h-[290px]">
-          <span className="absolute top-[-24px] left-1/2 -translate-x-1/2 bg-[linear-gradient(180deg,rgba(255,255,255,0.1),rgba(255,255,255,0))] bg-clip-text text-[150px] font-medium tracking-[-0.06em] pr-[0.06em] whitespace-nowrap optical-auto text-transparent select-none md:top-[-40px] md:text-[250px] xl:top-[-58px] xl:text-[360px]">
+          <span data-reveal="rise" className="absolute top-[-24px] left-1/2 -translate-x-1/2 bg-[linear-gradient(180deg,rgba(255,255,255,0.1),rgba(255,255,255,0))] bg-clip-text text-[150px] font-medium tracking-[-0.06em] pr-[0.06em] whitespace-nowrap optical-auto text-transparent select-none md:top-[-40px] md:text-[250px] xl:top-[-58px] xl:text-[360px]">
             Landed
           </span>
         </div>
