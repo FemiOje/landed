@@ -11,8 +11,9 @@ const FRAME_SHADOW = [
   '0 1.9px 5.6px rgba(12,12,10,0.06)',
 ].join(', ')
 
+// Figma gradient transform [[.5,.5,0],[-.25,.25,.5]] on a 317.6×661.3 frame → 115.6° in CSS.
 const FRAME_GRADIENT =
-  'linear-gradient(135deg, #4a4a4d 0%, #141415 18%, #2c2c2e 38%, #0a0a0b 55%, #232325 78%, #3e3e41 100%)'
+  'linear-gradient(115.6deg, #4a4a4d 0%, #141415 18%, #2c2c2e 38%, #0a0a0b 55%, #232325 78%, #3e3e41 100%)'
 
 const SIDE_BUTTONS = [
   { side: 'left', top: 100.9, height: 28 },
@@ -93,7 +94,8 @@ export default function ChatPhone() {
           </div>
         </div>
 
-        <div className="flex h-[479.1px] shrink-0 flex-col gap-[7.5px] overflow-hidden bg-[#f6f6f4] px-[11.2px] py-[13.1px]">
+        {/* Content is taller than this area; Figma keeps it anchored to the bottom, so the overflow is cut at the top. */}
+        <div className="flex h-[479.1px] shrink-0 flex-col justify-end gap-[7.5px] overflow-hidden bg-[#f6f6f4] px-[11.2px] py-[13.1px]">
           <span className="self-center rounded-full bg-white px-[8.4px] py-[4.7px] font-mono text-[9.3px] leading-[9.3px] font-medium tracking-[0.6px] text-muted uppercase">
             Sat, 20 Dec
           </span>

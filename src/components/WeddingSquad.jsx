@@ -24,8 +24,8 @@ function Stepper({ label, price, count, onChange }) {
   return (
     <div className="flex items-center justify-between rounded-[14px] bg-cream px-3.5 py-2.5">
       <div className="flex flex-col gap-0.5 font-inter">
-        <span className="text-[14px] font-semibold">{label}</span>
-        <span className="text-[12px] text-muted">{gbp.format(price)} each</span>
+        <span className="text-[14px] leading-[17px] font-semibold">{label}</span>
+        <span className="text-[12px] leading-[15px] text-muted">{gbp.format(price)} each</span>
       </div>
       <div className="flex items-center gap-2.5">
         <button
@@ -33,7 +33,7 @@ function Stepper({ label, price, count, onChange }) {
           aria-label={`Remove one ${label} outfit`}
           disabled={count === 0}
           onClick={() => onChange(count - 1)}
-          className="rounded-full transition-opacity disabled:opacity-40"
+          className="rounded-full disabled:cursor-not-allowed"
         >
           <img src={minusIcon} width="34" height="34" alt="" className="block" />
         </button>
@@ -61,9 +61,10 @@ export default function WeddingSquad() {
   const outfitCount = OUTFITS.reduce((sum, outfit) => sum + counts[outfit.id], 0)
   const total = OUTFITS.reduce((sum, outfit) => sum + counts[outfit.id] * outfit.price, 0)
 
+  // At design width Figma fixes this card at 394px; its content runs 15px into the bottom padding.
   return (
-    <div className="flex flex-col gap-3.5 rounded-[24px] bg-sand px-7 py-[30px]">
-      <h3 className="text-[28px] font-medium tracking-[-0.02em]">Going to a wedding as a group?</h3>
+    <div className="flex flex-col gap-3.5 rounded-[24px] bg-sand px-7 py-[30px] min-[1440px]:h-[394px]">
+      <h3 className="text-[28px] leading-[36px] font-medium tracking-[-0.02em]">Going to a wedding as a group?</h3>
       <p className="font-inter text-[16px] leading-[25px] text-body">
         Wedding Squad: matching outfits for 6 or more, one person organises, all delivered to one
         Lagos address.
@@ -77,7 +78,7 @@ export default function WeddingSquad() {
           onChange={(next) => setCounts((prev) => ({ ...prev, [outfit.id]: Math.max(0, next) }))}
         />
       ))}
-      <div className="flex justify-between font-inter text-[15px] font-semibold">
+      <div className="flex justify-between font-inter text-[15px] leading-[18px] font-semibold">
         <span>
           {outfitCount} {outfitCount === 1 ? 'outfit' : 'outfits'} · {gbp.format(total)} total
         </span>

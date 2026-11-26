@@ -14,9 +14,10 @@ import WhyLanded from './sections/WhyLanded'
 
 function App() {
   return (
-    <>
+    // Figma's page frame is a vertical auto layout with 18px between sections (white page background shows through).
+    <div className="flex flex-col gap-[18px]">
       <Hero />
-      <main>
+      <main className="flex flex-col gap-[18px]">
         <Problem />
         <WhyLanded />
         <HowItWorks />
@@ -30,7 +31,7 @@ function App() {
         <FinalCta />
       </main>
       <Footer />
-    </>
+    </div>
   )
 }
 

@@ -40,7 +40,8 @@ const CHEVRON = 'm-[-6.5px] shrink-0'
 function FaqItem({ question, answer, defaultOpen }) {
   return (
     <details name="faq" open={defaultOpen} className="group border-b border-ink/8 first:border-t">
-      <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 [&::-webkit-details-marker]:hidden">
+      {/* Closed rows in Figma centre their content in an 82.4px box cropped to 71px, so it sits 6px low. */}
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-6 pt-[26.2px] pb-[13.8px] group-open:py-5 [&::-webkit-details-marker]:hidden">
         <span className="text-[18px] leading-[24.3px] font-medium tracking-[-0.2px]">{question}</span>
         <img src={chevronIcon} width="43" height="43" alt="" className={`${CHEVRON} group-open:hidden`} />
         <img

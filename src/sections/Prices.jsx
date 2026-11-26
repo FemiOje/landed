@@ -94,20 +94,20 @@ function PlanCard({ dark, pill, name, tagline, price, unit, priceNote, includes,
     >
       <div className="flex flex-col gap-3">
         <span
-          className={`self-start rounded-full px-3 py-[7px] text-[11px] font-medium tracking-[0.04em] ${
+          className={`self-start rounded-full px-3 py-[7px] text-[11px] leading-[14px] font-medium tracking-[0.04em] ${
             dark ? 'bg-gold text-ink' : 'bg-sand-light text-body'
           }`}
         >
           {pill}
         </span>
-        <h3 className="text-[32px] font-medium tracking-[-0.02em]">{name}</h3>
+        <h3 className="text-[32px] leading-[42px] font-medium tracking-[-0.02em]">{name}</h3>
         <p className={`font-inter text-[16px] leading-6 ${subtle}`}>{tagline}</p>
       </div>
       <p className="flex items-baseline gap-2">
-        <span className="text-[48px] font-medium tracking-[-0.03em]">{price}</span>
-        {unit && <span className={`font-inter text-[15px] ${subtle}`}>{unit}</span>}
+        <span className="text-[48px] leading-[62px] font-medium tracking-[-0.03em]">{price}</span>
+        {unit && <span className={`font-inter text-[15px] leading-[18px] ${subtle}`}>{unit}</span>}
       </p>
-      {priceNote && <p className={`font-inter text-[15px] ${subtle}`}>{priceNote}</p>}
+      {priceNote && <p className={`font-inter text-[15px] leading-[18px] ${subtle}`}>{priceNote}</p>}
       <ul className="flex flex-1 flex-col gap-3">
         {includes.map((item) => (
           <CheckItem
@@ -129,8 +129,8 @@ function PlanCard({ dark, pill, name, tagline, price, unit, priceNote, includes,
 
 function OutfitCard() {
   return (
-    <div className="flex flex-col gap-4 rounded-[24px] bg-sand px-7 py-[30px]">
-      <h3 className="text-[28px] font-medium tracking-[-0.02em]">Just here for the outfit?</h3>
+    <div className="flex flex-col gap-4 rounded-[24px] bg-sand px-7 py-[30px] min-[1440px]:h-[394px]">
+      <h3 className="text-[28px] leading-[36px] font-medium tracking-[-0.02em]">Just here for the outfit?</h3>
       <p className="font-inter text-[16px] leading-[25px] text-body">
         Senator, kaftan or ankara from <strong className="font-semibold text-ink">£195</strong>.
         Agbada or lace <strong className="font-semibold text-ink">£275</strong>. Measured on video,
@@ -157,10 +157,10 @@ export default function Prices() {
         </div>
 
         <div className="flex flex-col gap-4 rounded-[20px] bg-sand px-7 py-6">
-          <h3 className="font-inter text-[16px] font-semibold">Every option comes with</h3>
+          <h3 className="font-inter text-[16px] leading-[19px] font-semibold">Every option comes with</h3>
           <ul className="flex flex-wrap gap-x-7 gap-y-3">
             {EVERY_OPTION.map((item) => (
-              <CheckItem key={item} align="self-center" className="text-body">
+              <CheckItem key={item} align="self-center" className="leading-[18px] text-body">
                 {item}
               </CheckItem>
             ))}
@@ -178,13 +178,13 @@ export default function Prices() {
           <WeddingSquad />
         </div>
 
-        <div className="flex flex-col gap-[18px] rounded-[24px] border border-dashed border-ink/20 px-7 py-[30px]">
-          <h3 className="text-[28px] font-medium tracking-[-0.02em]">Add to any option</h3>
+        <div className="dashed-border flex flex-col gap-[18px] rounded-[24px] px-7 py-[30px]">
+          <h3 className="text-[28px] leading-[36px] font-medium tracking-[-0.02em]">Add to any option</h3>
           <ul className="flex flex-wrap gap-2.5">
             {ADD_ONS.map((item) => (
               <li
                 key={item}
-                className="rounded-full bg-sand px-4 py-2.5 font-inter text-[15px] text-body"
+                className="rounded-full bg-sand px-4 py-2.5 font-inter text-[15px] leading-[18px] text-body"
               >
                 {item}
               </li>

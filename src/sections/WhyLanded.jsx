@@ -41,7 +41,7 @@ const FEATURES = [
 
 function FeatureCard({ icon, index, title, body }) {
   return (
-    <article className="flex flex-col gap-3.5 overflow-hidden rounded-[20px] border border-ink/8 bg-white p-[26px] xl:h-[235px]">
+    <article className="flex flex-col gap-3.5 overflow-hidden rounded-[20px] border border-ink/8 bg-white p-[26px] min-[1440px]:h-[235px]">
       <div className="flex items-center justify-between">
         <img src={icon} width="40" height="40" alt="" />
         <span className="text-[14px] font-medium text-muted">{String(index).padStart(2, '0')}</span>
@@ -56,13 +56,13 @@ export default function WhyLanded() {
   return (
     <section id="why-landed" aria-labelledby="why-landed-title" className="bg-white">
       <div className="mx-auto flex max-w-[1440px] flex-col gap-12 px-5 py-16 md:px-10 md:py-20 xl:pt-20 xl:pr-[120px] xl:pb-[70px] xl:pl-[90px]">
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 xl:h-[115px]">
           <Eyebrow>WHY LANDED</Eyebrow>
-          <SectionTitle id="why-landed-title" tracking="tracking-[-0.02em]">
+          <SectionTitle id="why-landed-title" tracking="tracking-[-0.02em]" className="optical-auto">
             Lagos in December, with no surprises
           </SectionTitle>
         </div>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map((feature, i) => (
             <FeatureCard key={feature.title} index={i + 1} {...feature} />
           ))}

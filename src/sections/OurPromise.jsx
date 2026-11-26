@@ -40,7 +40,7 @@ const PROMISES = [
 function PromiseCard({ icon, title, body, link, tight }) {
   return (
     <article
-      className={`flex flex-col rounded-[20px] border border-ink/8 bg-white p-7 ${tight ? 'gap-[9px]' : 'gap-3.5'}`}
+      className={`flex flex-col rounded-[20px] border border-ink/8 bg-white p-7 min-[1440px]:h-[286px] ${tight ? 'gap-[9px]' : 'gap-3.5'}`}
     >
       <img src={icon} width="44" height="44" alt="" />
       <h3 className="text-[22px] font-medium tracking-[-0.01em]">{title}</h3>
@@ -60,7 +60,8 @@ function PromiseCard({ icon, title, body, link, tight }) {
 export default function OurPromise() {
   return (
     <section id="our-promise" aria-labelledby="our-promise-title" className="bg-cream">
-      <div className="mx-auto flex max-w-[1440px] flex-col gap-12 px-5 py-16 md:px-10 md:py-20 xl:px-20 xl:pt-24 xl:pb-[172px]">
+      {/* At design width Figma fixes the cards at 286px and the section at 1065px; content runs into the padding, as in the design. */}
+      <div className="mx-auto flex max-w-[1440px] flex-col gap-12 px-5 py-16 md:px-10 md:py-20 xl:px-20 xl:pt-24 xl:pb-[172px] min-[1440px]:h-[1065px]">
         <div className="flex max-w-[760px] flex-col gap-[19px]">
           <Eyebrow tone="soft">OUR PROMISE</Eyebrow>
           <SectionTitle id="our-promise-title">Every promise, in writing.</SectionTitle>

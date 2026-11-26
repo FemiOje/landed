@@ -114,9 +114,9 @@ export default function Footer() {
         </p>
 
         {/* Wordmark: 360px "Landed" fading from 10% white at the top to transparent, cropped by a 290px box.
-            Figma sets it in DM Sans's display optical size (opsz 40), which is narrower than the body cut. */}
+            Right padding offsets the trailing letter-spacing so the glyphs centre like Figma. */}
         <div aria-hidden="true" className="relative h-[120px] overflow-hidden md:h-[200px] xl:h-[290px]">
-          <span className="absolute top-[-24px] left-1/2 -translate-x-1/2 bg-[linear-gradient(180deg,rgba(255,255,255,0.1),rgba(255,255,255,0))] bg-clip-text text-[150px] font-medium tracking-[-0.06em] pr-[0.06em] whitespace-nowrap text-transparent [font-variation-settings:'opsz'_40] select-none md:top-[-40px] md:text-[250px] xl:top-[-58px] xl:text-[360px]">
+          <span className="absolute top-[-24px] left-1/2 -translate-x-1/2 bg-[linear-gradient(180deg,rgba(255,255,255,0.1),rgba(255,255,255,0))] bg-clip-text text-[150px] font-medium tracking-[-0.06em] pr-[0.06em] whitespace-nowrap optical-auto text-transparent select-none md:top-[-40px] md:text-[250px] xl:top-[-58px] xl:text-[360px]">
             Landed
           </span>
         </div>
