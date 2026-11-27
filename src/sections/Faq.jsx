@@ -1,5 +1,7 @@
 import chevronIcon from '../assets/icons/faq-chevron.svg'
 import { Eyebrow, SectionTitle } from '../components/ui'
+import externalLinkProps from '../utils/externalLinkProps'
+import { LINKS } from '../config'
 
 const QUESTIONS = [
   {
@@ -75,7 +77,15 @@ export default function Faq() {
             Questions before you book
           </SectionTitle>
           <p data-reveal="up" className="mt-[14.5px] font-inter text-[18px] leading-[28.8px] text-body">
-            Anything else, message us on WhatsApp.
+            Anything else,{' '}
+            <a
+              href={LINKS.whatsapp}
+              {...externalLinkProps(LINKS.whatsapp)}
+              className="font-medium text-ink underline underline-offset-4 transition-colors hover:text-gold-text"
+            >
+              message us on WhatsApp
+            </a>
+            .
           </p>
         </div>
         <div className="min-w-0 lg:max-w-[723px] lg:flex-1">

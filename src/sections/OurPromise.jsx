@@ -3,8 +3,9 @@ import companyIcon from '../assets/icons/promise-company.svg'
 import docIcon from '../assets/icons/promise-doc.svg'
 import shieldIcon from '../assets/icons/promise-shield.svg'
 import TailorCarousel from '../components/TailorCarousel'
-import { CARD_HOVER, Eyebrow, Placeholder, SectionTitle } from '../components/ui'
-import { LINKS } from '../config'
+import { CARD_HOVER, Eyebrow, SectionTitle } from '../components/ui'
+import externalLinkProps from '../utils/externalLinkProps'
+import { COMPANY, LINKS } from '../config'
 
 const PROMISES = [
   {
@@ -12,8 +13,8 @@ const PROMISES = [
     title: 'A real company',
     body: (
       <>
-        Landed is a trading name of <Placeholder>[company name]</Placeholder>, company number{' '}
-        <Placeholder>[number]</Placeholder>. Look us up on the official UK register.
+        Landed is a trading name of {COMPANY.name}, company number {COMPANY.number}. Look us up on the
+        official UK register.
       </>
     ),
     link: { label: 'View on Companies House  →', href: LINKS.companiesHouse },
@@ -55,6 +56,7 @@ function PromiseCard({ icon, title, body, link, tight }) {
       {link && (
         <a
           href={link.href}
+          {...externalLinkProps(link.href)}
           className="self-start font-inter text-[14px] font-medium whitespace-pre underline-offset-4 transition-colors hover:text-gold-text hover:underline"
         >
           {link.label}

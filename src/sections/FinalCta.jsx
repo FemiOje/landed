@@ -1,6 +1,6 @@
-import dotIcon from '../assets/icons/dot-green.svg'
 import lockIcon from '../assets/icons/lock-light.svg'
 import backgroundPhoto from '../assets/images/final-cta-bg.png'
+import LiveDot from '../components/LiveDot'
 import { BookCallButton, MaskedLines, PRESSABLE } from '../components/ui'
 import { LINKS } from '../config'
 
@@ -100,7 +100,7 @@ export default function FinalCta() {
             </a>
           </div>
           <p data-reveal="fade" className="flex items-center gap-2.5 self-start rounded-full border border-white/14 bg-white/8 px-4 py-[9px] font-inter text-[14px] font-medium text-white/90">
-            <img src={dotIcon} width="8" height="8" alt="" />
+            <LiveDot />
             Last bookings 10 Dec · agbada and lace by 6 Dec
           </p>
         </div>

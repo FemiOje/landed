@@ -20,17 +20,19 @@ const DATES = [
   },
 ]
 
+// Heights from the design are minimums: they keep Figma's spacing when a line fits, and let the card grow
+// when a title wraps on narrow screens instead of spilling over the text below.
 function DateCard({ date, title, body, dateClass = 'text-[28px]' }) {
   return (
     <li
       data-reveal="up"
-      className={`flex flex-col rounded-[21.2px] border-[1.1px] border-[#e5e5e5] bg-white p-[24.4px] lg:h-[240px] ${CARD_HOVER}`}
+      className={`flex flex-col rounded-[21.2px] border-[1.1px] border-[#e5e5e5] bg-white p-[24.4px] lg:min-h-[240px] ${CARD_HOVER}`}
     >
       <span className="flex h-[29.7px] items-center self-start rounded-full bg-ink-black px-[12.7px] text-[14px] font-medium text-snow">
         UPCOMING
       </span>
-      <p className={`mt-[14.6px] h-[31.8px] font-medium ${dateClass}`}>{date}</p>
-      <h3 className="mt-[16.4px] h-[29px] text-[18px] font-medium">{title}</h3>
+      <p className={`mt-[14.6px] min-h-[31.8px] font-medium ${dateClass}`}>{date}</p>
+      <h3 className="mt-[16.4px] min-h-[29px] text-[18px] font-medium">{title}</h3>
       <p className="mt-2.5 text-[14px] font-medium text-muted">{body}</p>
     </li>
   )

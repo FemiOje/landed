@@ -1,8 +1,13 @@
 import facebookIcon from '../assets/icons/facebook.svg'
 import instagramIcon from '../assets/icons/instagram.svg'
+import mailIcon from '../assets/icons/mail.svg'
+import pinIcon from '../assets/icons/pin.svg'
+import slackIcon from '../assets/icons/slack.svg'
 import tiktokIcon from '../assets/icons/tiktok.svg'
-import { Logo } from '../components/ui'
-import { LINKS } from '../config'
+import whatsappIcon from '../assets/icons/whatsapp-light.svg'
+import { Logo, PRESSABLE } from '../components/ui'
+import externalLinkProps from '../utils/externalLinkProps'
+import { COMPANY, LINKS, WHATSAPP_DISPLAY } from '../config'
 
 const EXPLORE = [
   { label: 'Why Landed', href: '#why-landed' },
@@ -15,11 +20,13 @@ const EXPLORE = [
   { label: 'FAQ', href: '#faq' },
 ]
 
-// `value` never splits (a phone number broken across lines is hard to read); the line wraps before it instead.
+// Each item leads with an icon. Linked items show the icon in place of their label, which becomes its alt text
+// for screen readers; the location keeps its text, so its pin is decorative.
+// The phone number never splits across lines. The email may wrap in a narrow column, preferably after the "@".
 const CONTACT = [
-  { label: 'WhatsApp UK', value: '[+44 number]' },
-  { label: 'Email', value: '[to add]' },
-  { label: 'London · Lagos' },
+  { label: 'WhatsApp UK', icon: whatsappIcon, value: WHATSAPP_DISPLAY, href: LINKS.whatsapp },
+  { label: 'Email', icon: mailIcon, value: COMPANY.email, href: `mailto:${COMPANY.email}`, breakAnywhere: true },
+  { label: 'London · Lagos', icon: pinIcon },
 ]
 
 const SOCIAL = [
@@ -36,6 +43,19 @@ const POLICIES = [
 
 const LINK =
   'font-inter text-[15px] text-white/85 transition-[color,translate] duration-300 ease-out-expo hover:text-white motion-safe:hover:translate-x-1'
+
+// Offers a line break straight after the "@", so a long address wraps as "name@" / "domain" rather than mid-word.
+function EmailWithBreak({ address }) {
+  const at = address.indexOf('@')
+  if (at === -1) return address
+  return (
+    <>
+      {address.slice(0, at + 1)}
+      <wbr />
+      {address.slice(at + 1)}
+    </>
+  )
+}
 
 function Gold({ children }) {
   return <span className="text-gold">{children}</span>
@@ -65,7 +85,11 @@ export default function Footer() {
               team on the ground.
             </p>
           </div>
-          <nav aria-label="Footer" className="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:contents">
+          {/* Phones: Explore takes only the width its links need, so Follow (with the Slack button) gets the rest. */}
+          <nav
+            aria-label="Footer"
+            className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-6 gap-y-10 sm:grid-cols-3 sm:gap-10 lg:contents"
+          >
             <Column title="EXPLORE">
               {EXPLORE.map((link) => (
                 <li key={link.href}>
@@ -78,14 +102,19 @@ export default function Footer() {
             {/* In the two-column phone grid, Contact drops below Explore and Follow at full width so its
                 longer lines have room; from sm up it's back in its own column. */}
             <Column title="CONTACT" className="order-last col-span-2 sm:order-none sm:col-span-1">
-              {CONTACT.map(({ label, value }) => (
-                <li key={label} className="break-words text-white/85">
-                  {label}
-                  {value && (
-                    <>
-                      {' '}
-                      <span className="whitespace-nowrap">{value}</span>
-                    </>
+              {CONTACT.map(({ label, icon, value, href, breakAnywhere }) => (
+                <li key={label} className="flex items-start gap-2.5 text-white/85">
+                  <img src={icon} width="18" height="18" alt={href ? label : ''} className="shrink-0" />
+                  {href ? (
+                    <a
+                      href={href}
+                      {...externalLinkProps(href)}
+                      className={`min-w-0 ${breakAnywhere ? '[overflow-wrap:anywhere]' : 'whitespace-nowrap'} underline-offset-4 transition-colors duration-300 hover:text-white hover:underline`}
+                    >
+                      {breakAnywhere ? <EmailWithBreak address={value} /> : value}
+                    </a>
+                  ) : (
+                    <span>{label}</span>
                   )}
                 </li>
               ))}
@@ -93,21 +122,39 @@ export default function Footer() {
             <Column title="FOLLOW">
               {SOCIAL.map((link) => (
                 <li key={link.label}>
-                  <a href={link.href} className={`flex items-center gap-2.5 ${LINK}`}>
+                  <a href={link.href} {...externalLinkProps(link.href)} className={`flex items-center gap-2.5 ${LINK}`}>
                     <img src={link.icon} width="18" height="18" alt="" />
                     {link.label}
                   </a>
                 </li>
               ))}
+              {/* The community lives on Slack: a join button rather than another profile link. */}
+              <li className="pt-1.5">
+                <a
+                  href={LINKS.slackJoin}
+                  {...externalLinkProps(LINKS.slackJoin)}
+                  className={`inline-flex h-10 items-center gap-2.5 rounded-full border border-white/20 px-3 sm:px-3.5 font-inter text-[15px] font-medium whitespace-nowrap text-white/90 hover:border-gold hover:bg-white/5 hover:text-white ${PRESSABLE}`}
+                >
+                  <img src={slackIcon} width="18" height="18" alt="" className="shrink-0" />
+                  Join our Slack
+                </a>
+              </li>
             </Column>
           </nav>
         </div>
 
         <div className="mt-16 flex flex-col gap-6 pt-7 lg:flex-row lg:items-start lg:gap-12">
           <p className="font-inter text-[13px] leading-5 text-white/55 lg:flex-1">
-            Landed is a trading name of <Gold>[company name]</Gold>, a company registered in
-            England and Wales, number <Gold>[number]</Gold>. Registered office{' '}
-            <Gold>[address]</Gold>. We don’t sell flights, accommodation or transport.
+            Landed is a trading name of {COMPANY.name}, a company registered in England and Wales,
+            number{' '}
+            <a
+              href={LINKS.companiesHouse}
+              {...externalLinkProps(LINKS.companiesHouse)}
+              className="text-white/80 underline underline-offset-2 transition-colors hover:text-white"
+            >
+              {COMPANY.number}
+            </a>
+            . Registered office <Gold>[address]</Gold>. We don’t sell flights, accommodation or transport.
           </p>
           <ul className="flex gap-7">
             {POLICIES.map((link) => (

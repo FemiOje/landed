@@ -1,5 +1,6 @@
 import whatsappIcon from '../assets/icons/whatsapp.svg'
 import { LINKS } from '../config'
+import externalLinkProps from '../utils/externalLinkProps'
 
 export function Logo({ className = '' }) {
   return (
@@ -74,6 +75,7 @@ export function PillButton({ href = LINKS.bookCall, variant = 'outline', classNa
   return (
     <a
       href={href}
+      {...externalLinkProps(href)}
       className={`inline-flex h-[52px] items-center justify-center rounded-full px-7 font-inter text-[15px] font-medium text-ink hover:opacity-85 hover:shadow-[0_8px_20px_-8px_rgba(168,122,31,0.45)] ${PRESSABLE} ${BUTTON_VARIANTS[variant]} ${className}`}
     >
       {children}
@@ -87,6 +89,7 @@ export function BookCallButton({ outlined = false, className = '' }) {
   return (
     <a
       href={LINKS.bookCall}
+      {...externalLinkProps(LINKS.bookCall)}
       className={`group/call inline-flex items-center gap-4 rounded-[62px] bg-ink-black text-[16px] text-mist hover:opacity-90 hover:shadow-[0_10px_24px_-10px_rgba(0,0,0,0.6)] ${PRESSABLE} ${box} ${className}`}
     >
       Book your free december call

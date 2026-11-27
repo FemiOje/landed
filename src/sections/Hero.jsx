@@ -1,4 +1,5 @@
 import heroImage from '../assets/images/hero.png'
+import LiveDot from '../components/LiveDot'
 import { BookCallButton, MaskedLines } from '../components/ui'
 
 function LastOrdersChip() {
@@ -6,12 +7,7 @@ function LastOrdersChip() {
     <p
       data-reveal="up"
       className="inline-flex h-7 items-center gap-2 self-start rounded-full bg-white/24 px-3 text-[14px] font-medium text-snow">
-      {/* Live beacon: two staggered rings radiate from the halo while the dot's glow breathes. */}
-      <span aria-hidden="true" className="relative grid size-3 place-items-center rounded-full bg-live/32">
-        <span className="absolute inset-0 rounded-full bg-live/60 motion-safe:animate-live-ping motion-reduce:hidden" />
-        <span className="absolute inset-0 rounded-full bg-live/60 motion-safe:animate-live-ping motion-safe:[animation-delay:-1.2s] motion-reduce:hidden" />
-        <span className="relative size-1.5 rounded-full bg-live shadow-[0_0_6px_1px_rgb(34_197_94/0.8)] motion-safe:animate-live-glow" />
-      </span>
+      <LiveDot />
       LAST ORDERS, THURSDAY 10TH DEC
     </p>
   )

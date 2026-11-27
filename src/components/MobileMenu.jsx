@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { LINKS } from '../config'
 import { Logo, PRESSABLE } from './ui'
+import externalLinkProps from '../utils/externalLinkProps'
 
 // Every section with an anchor, in page order.
 const MENU_LINKS = [
@@ -104,6 +105,7 @@ export default function MobileMenu() {
           <div className="mobile-menu-item mt-auto pt-8" style={{ '--item': MENU_LINKS.length }}>
             <a
               href={LINKS.bookCall}
+              {...externalLinkProps(LINKS.bookCall)}
               onClick={closeMenu}
               className={`flex h-[52px] w-full items-center justify-center rounded-full bg-gold font-inter text-[15px] font-semibold text-ink shadow-[0_2px_6px_rgba(168,122,31,0.22)] hover:opacity-90 ${PRESSABLE}`}
             >

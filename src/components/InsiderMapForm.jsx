@@ -2,8 +2,9 @@ import { useId, useRef, useState } from 'react'
 import arrowIcon from '../assets/icons/arrow-right.svg'
 import calendarIcon from '../assets/icons/calendar.svg'
 import lockIcon from '../assets/icons/lock.svg'
-import { INSIDER_MAP_FORM_ACTION } from '../config'
+import { INSIDER_MAP_FORM_ACTION, LINKS } from '../config'
 import { PRESSABLE } from './ui'
+import externalLinkProps from '../utils/externalLinkProps'
 
 const DATE_PATTERN = '\\d{2}/\\d{2}/\\d{4}'
 
@@ -12,10 +13,12 @@ function parseDate(value) {
   return new Date(year, month - 1, day)
 }
 
+// Fields sharing a row stretch to the same height; `justify-end` pins each input to the bottom, so inputs stay
+// level even when one label wraps (e.g. "Arriving in Lagos" beside "Leaving" on a phone).
 function Field({ label, icon, ref, ...inputProps }) {
   const id = useId()
   return (
-    <div className="flex min-w-0 flex-1 flex-col gap-2">
+    <div className="flex min-w-0 flex-1 flex-col justify-end gap-2">
       <label htmlFor={id} className="font-inter text-[13px] font-medium text-body">
         {label}
       </label>
@@ -69,7 +72,8 @@ export default function InsiderMapForm({ className = '' }) {
       </div>
       <Field label="Your name" name="name" autoComplete="name" placeholder="First and last name" required />
       <Field label="Email" name="email" type="email" autoComplete="email" placeholder="you@example.com" required />
-      <div className="flex gap-3">
+      {/* Side by side, each date input is too narrow for "18/12/2026" on phones, so the dates stack until sm. */}
+      <div className="flex flex-col gap-[18px] sm:flex-row sm:gap-3">
         <Field
           label="Arriving in Lagos"
           name="arriving"
@@ -112,7 +116,11 @@ export default function InsiderMapForm({ className = '' }) {
       </p>
       {notConnected && (
         <p role="status" className="font-inter text-[13px] text-alert motion-safe:animate-fade-up">
-          Sign-ups aren't connected yet. Please message us on WhatsApp for your map.
+          Sign-ups aren't connected yet. Please{' '}
+          <a href={LINKS.whatsapp} {...externalLinkProps(LINKS.whatsapp)} className="font-medium underline underline-offset-2">
+            message us on WhatsApp
+          </a>{' '}
+          for your map.
         </p>
       )}
     </form>

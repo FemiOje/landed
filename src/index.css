@@ -34,8 +34,8 @@
   --animate-fade-up: fade-up 450ms var(--ease-out-expo) both;
   --animate-slide-in: slide-in 500ms var(--ease-out-expo) both;
   --animate-bump: bump 300ms var(--ease-spring);
-  --animate-live-ping: live-ping 2.4s var(--ease-out-expo) infinite;
-  --animate-live-glow: live-glow 2.4s ease-in-out infinite;
+  --animate-live-ring: live-ring 2.2s cubic-bezier(0.25, 0.6, 0.35, 1) infinite;
+  --animate-live-beat: live-beat 2.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 
   @keyframes fade-up {
     from {
@@ -57,26 +57,34 @@
     }
   }
 
-  /* "Live location" beacon: a ring that radiates out and fades, plus a dot whose glow breathes. */
-  @keyframes live-ping {
-    from {
+  /*
+   * "Live" beacon, one heartbeat per 2.2s cycle. Both keyframes share the cycle so they stay in step:
+   * the solid dot swells (beat) as a soft ring leaves it (ring); the ring has faded by 80% and
+   * the rest of the cycle is a calm pause before the next beat.
+   */
+  @keyframes live-ring {
+    0% {
       transform: scale(1);
       opacity: 0.7;
     }
+    20% {
+      opacity: 0.45;
+    }
     80%,
-    to {
-      transform: scale(2.6);
+    100% {
+      transform: scale(3.4);
       opacity: 0;
     }
   }
 
-  @keyframes live-glow {
+  @keyframes live-beat {
     0%,
+    45%,
     100% {
-      box-shadow: 0 0 4px 0 rgb(34 197 94 / 0.6);
+      transform: scale(1);
     }
-    50% {
-      box-shadow: 0 0 10px 2px rgb(34 197 94 / 0.95);
+    18% {
+      transform: scale(1.2);
     }
   }
 }

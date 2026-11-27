@@ -1,5 +1,6 @@
 import MobileMenu from '../components/MobileMenu'
 import { Logo, PRESSABLE } from '../components/ui'
+import externalLinkProps from '../utils/externalLinkProps'
 import { LINKS } from '../config'
 import useScrolledPast from '../hooks/useScrolledPast'
 
@@ -54,6 +55,7 @@ export default function SiteNav() {
           <MobileMenu />
           <a
             href={LINKS.bookCall}
+            {...externalLinkProps(LINKS.bookCall)}
             className={`hidden h-9 items-center rounded-full bg-gold px-4 font-inter text-[14px] font-semibold text-ink shadow-[0_2px_6px_rgba(168,122,31,0.22)] hover:opacity-90 hover:shadow-[0_8px_18px_-6px_rgba(168,122,31,0.6)] md:inline-flex ${PRESSABLE}`}
           >
             Book a call
