@@ -8,6 +8,7 @@ import Hero from './sections/Hero'
 import HowItWorks from './sections/HowItWorks'
 import InsiderMap from './sections/InsiderMap'
 import KeyDates from './sections/KeyDates'
+import LagosMoment from './sections/LagosMoment'
 import OurPromise from './sections/OurPromise'
 import Prices from './sections/Prices'
 import Problem from './sections/Problem'
@@ -25,6 +26,7 @@ function App() {
       <main className="flex flex-col">
         <Problem />
         <WhyLanded />
+        <LagosMoment />
         <HowItWorks />
         <Prices />
         <OurPromise />

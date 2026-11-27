@@ -1,11 +1,7 @@
-import facebookIcon from '../assets/icons/facebook.svg'
-import instagramIcon from '../assets/icons/instagram.svg'
 import mailIcon from '../assets/icons/mail.svg'
 import pinIcon from '../assets/icons/pin.svg'
-import slackIcon from '../assets/icons/slack.svg'
-import tiktokIcon from '../assets/icons/tiktok.svg'
 import whatsappIcon from '../assets/icons/whatsapp-light.svg'
-import { Logo, PRESSABLE } from '../components/ui'
+import { Logo } from '../components/ui'
 import externalLinkProps from '../utils/externalLinkProps'
 import { COMPANY, LINKS, WHATSAPP_DISPLAY } from '../config'
 
@@ -27,12 +23,6 @@ const CONTACT = [
   { label: 'WhatsApp UK', icon: whatsappIcon, value: WHATSAPP_DISPLAY, href: LINKS.whatsapp },
   { label: 'Email', icon: mailIcon, value: COMPANY.email, href: `mailto:${COMPANY.email}`, breakAnywhere: true },
   { label: 'London · Lagos', icon: pinIcon },
-]
-
-const SOCIAL = [
-  { label: 'Instagram', href: LINKS.instagram, icon: instagramIcon },
-  { label: 'TikTok', href: LINKS.tiktok, icon: tiktokIcon },
-  { label: 'Facebook', href: LINKS.facebook, icon: facebookIcon },
 ]
 
 const POLICIES = [
@@ -61,9 +51,9 @@ function Gold({ children }) {
   return <span className="text-gold">{children}</span>
 }
 
-function Column({ title, className = '', children }) {
+function Column({ title, width = 'lg:w-[200px]', children }) {
   return (
-    <div data-reveal="up" className={`flex flex-col gap-3.5 lg:w-[200px] ${className}`}>
+    <div data-reveal="up" className={`flex flex-col gap-3.5 ${width}`}>
       {/* Figma: gold text with a 20% black fill layered on top. */}
       <h2 className="text-[14px] leading-[18px] font-medium text-[#aa8336]">{title}</h2>
       <ul className="flex flex-col gap-3 pt-1.5 font-inter text-[15px] leading-[18px]">{children}</ul>
@@ -75,8 +65,8 @@ export default function Footer() {
   return (
     <footer className="overflow-hidden bg-ink">
       <div className="mx-auto flex max-w-[1440px] flex-col px-5 pt-16 md:px-10 xl:px-[100px] xl:pt-[88px]">
-        {/* Desktop row: 420px brand + 3 × 200px columns, spread apart when there's room. Below ~1450px that
-            doesn't fit, so the brand and columns shrink in proportion rather than pushing Follow off screen. */}
+        {/* Desktop row: 420px brand + 200px Explore + content-width Contact, spread apart when there's room; on narrower screens
+            the brand and columns shrink in proportion rather than pushing Contact off screen. */}
         <div className="flex flex-col gap-12 lg:flex-row lg:justify-between lg:gap-10 xl:gap-16">
           <div data-reveal="up" className="flex flex-col gap-[18px] lg:w-[420px]">
             <Logo className="text-[34px]" />
@@ -85,11 +75,8 @@ export default function Footer() {
               team on the ground.
             </p>
           </div>
-          {/* Phones: Explore takes only the width its links need, so Follow (with the Slack button) gets the rest. */}
-          <nav
-            aria-label="Footer"
-            className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-6 gap-y-10 sm:grid-cols-3 sm:gap-10 lg:contents"
-          >
+          {/* Phones: Explore and Contact stack; from sm up they sit side by side. */}
+          <nav aria-label="Footer" className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 sm:gap-10 lg:contents">
             <Column title="EXPLORE">
               {EXPLORE.map((link) => (
                 <li key={link.href}>
@@ -99,9 +86,9 @@ export default function Footer() {
                 </li>
               ))}
             </Column>
-            {/* In the two-column phone grid, Contact drops below Explore and Follow at full width so its
-                longer lines have room; from sm up it's back in its own column. */}
-            <Column title="CONTACT" className="order-last col-span-2 sm:order-none sm:col-span-1">
+            {/* Sized to its content rather than a fixed 200px, so the email stays on one line whenever the row
+                has room; it only shrinks (and wraps after the "@") when space genuinely runs out. */}
+            <Column title="CONTACT" width="lg:w-auto">
               {CONTACT.map(({ label, icon, value, href, breakAnywhere }) => (
                 <li key={label} className="flex items-start gap-2.5 text-white/85">
                   <img src={icon} width="18" height="18" alt={href ? label : ''} className="shrink-0" />
@@ -118,27 +105,6 @@ export default function Footer() {
                   )}
                 </li>
               ))}
-            </Column>
-            <Column title="FOLLOW">
-              {SOCIAL.map((link) => (
-                <li key={link.label}>
-                  <a href={link.href} {...externalLinkProps(link.href)} className={`flex items-center gap-2.5 ${LINK}`}>
-                    <img src={link.icon} width="18" height="18" alt="" />
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-              {/* The community lives on Slack: a join button rather than another profile link. */}
-              <li className="pt-1.5">
-                <a
-                  href={LINKS.slackJoin}
-                  {...externalLinkProps(LINKS.slackJoin)}
-                  className={`inline-flex h-10 items-center gap-2.5 rounded-full border border-white/20 px-3 sm:px-3.5 font-inter text-[15px] font-medium whitespace-nowrap text-white/90 hover:border-gold hover:bg-white/5 hover:text-white ${PRESSABLE}`}
-                >
-                  <img src={slackIcon} width="18" height="18" alt="" className="shrink-0" />
-                  Join our Slack
-                </a>
-              </li>
             </Column>
           </nav>
         </div>
