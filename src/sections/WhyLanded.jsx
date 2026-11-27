@@ -35,7 +35,7 @@ const FEATURES = [
   {
     icon: homeIcon,
     title: 'Home, with your family',
-    body: "On The Homecoming and The Family: a day planned around your family, home-cooked dinners, and house help every day where you're staying.",
+    body: "On The Family: a day planned around your family, home-cooked dinners, and house help every day where you're staying.",
   },
 ]
 
