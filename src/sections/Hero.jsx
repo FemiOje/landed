@@ -1,52 +1,16 @@
 import heroImage from '../assets/images/hero.png'
-import { BookCallButton, Logo, MaskedLines, PRESSABLE } from '../components/ui'
-import { LINKS } from '../config'
-
-const NAV_LINKS = [
-  { label: 'How it works', href: '#how-it-works' },
-  { label: 'Prices', href: '#prices' },
-  { label: 'Our promise', href: '#our-promise' },
-  { label: 'FAQ', href: '#faq' },
-]
-
-function HeroNav() {
-  return (
-    <nav data-reveal="fade" aria-label="Main" className="flex h-9 items-center justify-between">
-      <a href="#top" aria-label="Landed home">
-        <Logo className="text-[26px]" />
-      </a>
-      <div className="flex items-center gap-2">
-        <ul className="hidden items-center gap-2 md:flex">
-          {NAV_LINKS.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                className="block rounded-full px-3 py-[9px] text-[14px] font-medium text-snow transition-colors duration-300 hover:bg-white/10 active:bg-white/20"
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-        <span aria-hidden="true" className="hidden w-4 md:block" />
-        <a
-          href={LINKS.bookCall}
-          className={`inline-flex h-9 items-center rounded-full bg-gold px-4 font-inter text-[14px] font-semibold text-ink shadow-[0_2px_6px_rgba(168,122,31,0.22)] hover:opacity-90 hover:shadow-[0_8px_18px_-6px_rgba(168,122,31,0.6)] ${PRESSABLE}`}
-        >
-          Book a call
-        </a>
-      </div>
-    </nav>
-  )
-}
+import { BookCallButton, MaskedLines } from '../components/ui'
 
 function LastOrdersChip() {
   return (
     <p
       data-reveal="up"
       className="inline-flex h-7 items-center gap-2 self-start rounded-full bg-white/24 px-3 text-[14px] font-medium text-snow">
-      <span aria-hidden="true" className="grid size-3 place-items-center rounded-full bg-[#22c55e]/32">
-        <span className="size-1.5 rounded-full bg-[#22c55e] motion-safe:animate-pulse" />
+      {/* Live beacon: two staggered rings radiate from the halo while the dot's glow breathes. */}
+      <span aria-hidden="true" className="relative grid size-3 place-items-center rounded-full bg-live/32">
+        <span className="absolute inset-0 rounded-full bg-live/60 motion-safe:animate-live-ping motion-reduce:hidden" />
+        <span className="absolute inset-0 rounded-full bg-live/60 motion-safe:animate-live-ping motion-safe:[animation-delay:-1.2s] motion-reduce:hidden" />
+        <span className="relative size-1.5 rounded-full bg-live shadow-[0_0_6px_1px_rgb(34_197_94/0.8)] motion-safe:animate-live-glow" />
       </span>
       LAST ORDERS, THURSDAY 10TH DEC
     </p>
@@ -65,8 +29,8 @@ export default function Hero() {
       />
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-black/54" />
 
-      <div className="mx-auto max-w-[1440px] px-5 pt-[26px] pb-20 md:px-10 xl:px-20 xl:pb-0">
-        <HeroNav />
+      {/* The fixed SiteNav overlays the top: 62px = its 26px offset + 36px height, so the copy sits where it did. */}
+      <div className="mx-auto max-w-[1440px] px-5 pt-[62px] pb-20 md:px-10 xl:px-20 xl:pb-0">
 
         <div className="mt-24 flex max-w-[782px] flex-col gap-[15px] md:mt-32 xl:mt-[152px] xl:-ml-[3px]">
           <div className="flex flex-col gap-6">
