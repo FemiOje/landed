@@ -19,13 +19,10 @@ function App() {
   useScrollReveal()
 
   return (
-    // Figma's page frame is a vertical auto layout with 18px between sections (white page background shows through),
-    // except the hero and footer, which sit flush against their neighbours (Problem and the final CTA).
-    // overflow-x-clip stops sideways reveals and hover lifts from ever adding a horizontal scrollbar.
     <div className="flex flex-col overflow-x-clip">
       <SiteNav />
       <Hero />
-      <main className="flex flex-col gap-[18px]">
+      <main className="flex flex-col">
         <Problem />
         <WhyLanded />
         <HowItWorks />
