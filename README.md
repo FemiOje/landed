@@ -36,7 +36,7 @@ privacy/index.html     # /privacy entry
 api/
 └── insider-map.js     # Vercel Function: Insider Map sign-ups → email
 public/
-└── og-image.jpg       # 1200×630 link-preview image
+└── favicon.ico        # Fixed-address icon for apps that request /favicon.ico directly
 src/
 ├── App.jsx            # Home page composition: the sections in order
 ├── terms.jsx          # /terms React entry
@@ -66,7 +66,8 @@ src/
 │   └── WeddingSquad.jsx
 └── assets/
     ├── icons/         # SVG icons exported from Figma
-    └── images/        # Photography and backgrounds
+    ├── images/        # Photography and backgrounds
+    └── site/          # Favicons, home-screen icon and the 1200×630 link-preview image (og-image.jpg)
 ```
 
 ## Design tokens
@@ -94,6 +95,10 @@ Anything still waiting on the client (the Landed email, the Insider Map mail set
 | `INSIDER_MAP_TO` | Same (optional) | Who receives sign-ups. Defaults to `COMPANY.email`. |
 | `SMTP_HOST`, `SMTP_PORT` | Same (optional) | Only needed if the mail isn't sent through Google. Defaults: `smtp.gmail.com`, `465`. |
 | `VITE_SITE_URL` | Build environment | The site's public origin, e.g. `https://example.com`. It's used for the absolute `og:image`/`og:url` that WhatsApp needs for link previews. On Vercel it falls back to the production domain automatically. |
+
+### Icons and the link-preview image
+
+These live in `src/assets/site/`, not `public/`, so the build names each file by a hash of its content (for example `/assets/favicon-8lF1vW5z.svg`). When you replace a file, its address changes, so apps that cached the old one (link previews in WhatsApp or Snapchat, home-screen icons) fetch the new one. There's no version number to bump. Only `public/favicon.ico` keeps a fixed address, because some apps request `/favicon.ico` directly.
 
 ### Insider Map form
 

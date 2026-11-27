@@ -6,9 +6,9 @@ import { handleSignup } from './api/insider-map.js'
 
 const root = import.meta.dirname
 
-// Link previews (og:image, og:url) need absolute URLs, so the HTML pages say %SITE_URL% and this fills it in.
-// Set VITE_SITE_URL (e.g. https://landed.example) for the production build; on Vercel it falls back to the
-// project's production domain. Without either, the URLs stay relative, which WhatsApp won't show.
+// Link previews (og:image, og:url) need absolute URLs. Set VITE_SITE_URL (e.g. https://landed.example) for the
+// production build; on Vercel it falls back to the project's production domain. Without either, the URLs stay
+// relative, which WhatsApp won't show.
 function siteUrl(env) {
   const url =
     env.VITE_SITE_URL ||
@@ -16,6 +16,7 @@ function siteUrl(env) {
   return url.replace(/\/+$/, '')
 }
 
+// og:url is written as %SITE_URL%/… in the HTML pages; this fills it in.
 function siteUrlPlugin(url) {
   let warned = false
   return {
@@ -33,6 +34,18 @@ function siteUrlPlugin(url) {
     },
   }
 }
+
+// og:image is a hashed build asset (/assets/og-image-….jpg); give it the site URL in the HTML so it's absolute.
+// Everything else keeps Vite's normal root-relative URLs.
+function renderBuiltUrl(url) {
+  return (filename, { hostType }) =>
+    url && hostType === 'html' && /^assets\/og-image-[^/]+$/.test(filename) ? `${url}/${filename}` : undefined
+}
+
+// Icons and the link-preview image (src/assets/site) must be real files: Vite would otherwise inline anything
+// under 4 KB as a data: URL, which iOS home-screen icons and link-preview scrapers don't read.
+const SITE_ASSETS = `${resolve(root, 'src/assets/site')}/`
+const assetsInlineLimit = (file) => (file.startsWith(SITE_ASSETS) ? false : undefined)
 
 // Runs the Insider Map Vercel Function inside `vite` and `vite preview`, so the form works locally.
 // Put the SMTP_* variables (see api/insider-map.js) in .env.local to send real test emails.
@@ -92,6 +105,8 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react(), tailwindcss(), siteUrlPlugin(siteUrl(env)), pagesPlugin(), apiPlugin(env)],
     // Each page is its own HTML entry, built to dist/<page>/index.html so it's served at /<page> on any static host.
+    build: { assetsInlineLimit },
+    experimental: { renderBuiltUrl: renderBuiltUrl(siteUrl(env)) },
     input: {
       main: resolve(root, 'index.html'),
       ...Object.fromEntries(PAGES.map((page) => [page, resolve(root, page, 'index.html')])),
