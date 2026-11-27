@@ -2,6 +2,7 @@ import checkIcon from '../assets/icons/check-gold.svg'
 import checkLightIcon from '../assets/icons/check-gold-light.svg'
 import WeddingSquad from '../components/WeddingSquad'
 import { CARD_HOVER, Eyebrow, PillButton, SectionTitle } from '../components/ui'
+import { PACKAGE_LINKS } from '../config'
 
 const EVERY_OPTION = [
   'Your December planned with you on a free call',
@@ -25,6 +26,7 @@ const PLANS = [
       'Senator, kaftan or ankara made to your measurements (agbada or lace +£80)',
     ],
     notIncluded: 'Not included: drinks, transport, event tickets',
+    bookingHref: PACKAGE_LINKS.welcome,
   },
   {
     dark: true,
@@ -42,6 +44,7 @@ const PLANS = [
       'Agbada or lace made to your measurements',
     ],
     notIncluded: 'Not included: drinks, transport, event tickets',
+    bookingHref: PACKAGE_LINKS.homecoming,
   },
   {
     pill: 'UP TO 4 PEOPLE · 3 DAYS',
@@ -58,6 +61,7 @@ const PLANS = [
       '2-hour family photo shoot',
     ],
     notIncluded: 'Not included: outfits (add any from £195), transport, accommodation',
+    bookingHref: PACKAGE_LINKS.family,
   },
 ]
 
@@ -81,7 +85,7 @@ function CheckItem({ icon = checkIcon, align = 'self-start', className = '', chi
   )
 }
 
-function PlanCard({ dark, pill, name, tagline, price, unit, priceNote, includes, notIncluded }) {
+function PlanCard({ dark, pill, name, tagline, price, unit, priceNote, includes, notIncluded, bookingHref }) {
   const subtle = dark ? 'text-stone-light' : 'text-muted'
 
   return (
@@ -121,7 +125,7 @@ function PlanCard({ dark, pill, name, tagline, price, unit, priceNote, includes,
         ))}
       </ul>
       <p className={`font-inter text-[13px] leading-[19px] ${subtle}`}>{notIncluded}</p>
-      <PillButton variant={dark ? 'gold' : 'outline'} className="w-full">
+      <PillButton href={bookingHref} variant={dark ? 'gold' : 'outline'} className="w-full">
         Book your free December call
       </PillButton>
     </article>
@@ -141,7 +145,9 @@ function OutfitCard() {
         seen before you pay the rest, at your door before your first event.
       </p>
       <div className="flex-1" />
-      <PillButton className="self-start">Book your free call</PillButton>
+      <PillButton href={PACKAGE_LINKS.outfit} className="self-start">
+        Book your free call
+      </PillButton>
     </div>
   )
 }

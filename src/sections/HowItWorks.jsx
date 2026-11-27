@@ -19,7 +19,7 @@ const STEPS = [
     body: 'Nights out with a host who knows the places, licensed security when you want it, and your photo shoot. On The Family: home-cooked dinners, house help and a day with your people.',
   },
   {
-    label: 'CROSS OVER NIGHT',
+    label: 'CROSSOVER NIGHT',
     body: 'You see the new year in at home, dressed for it.',
   },
 ]

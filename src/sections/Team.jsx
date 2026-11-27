@@ -1,7 +1,5 @@
-import cofounderPhoto from '../assets/images/team-cofounder.png'
-import hostPhoto from '../assets/images/team-host.jpeg'
+import rockyPhoto from '../assets/images/rocky-video.png'
 import seanPhoto from '../assets/images/team-sean.jpeg'
-import tailorPhoto from '../assets/images/team-tailor.jpeg'
 import { Eyebrow, SectionTitle } from '../components/ui'
 
 const TEAM = [
@@ -12,9 +10,9 @@ const TEAM = [
     // Figma crop (image fill transform): the visible region of the source image, as fractions.
     crop: { x: 0.15, y: 0.04, width: 0.6408, height: 0.6 },
   },
-  { name: 'Name to come', role: 'Co-founder', photo: cofounderPhoto },
-  { name: 'Name to come', role: 'Tailor', photo: tailorPhoto },
-  { name: 'Name to come', role: 'Host', photo: hostPhoto },
+  // Same photo as his card in the Meet the Lagos team carousel.
+  { name: 'Rocky', role: 'Head of Operations and Head Tailor', photo: rockyPhoto },
+  // Cards for the other co-founder and the host come back once their names are confirmed.
 ]
 
 function cropStyle({ x, y, width, height }) {
@@ -26,7 +24,7 @@ function cropStyle({ x, y, width, height }) {
   }
 }
 
-function TeamMember({ name, role, photo, crop, isPlaceholder }) {
+function TeamMember({ name, role, photo, crop }) {
   return (
     <li data-reveal="up">
       <figure className="group flex flex-col gap-3">
@@ -35,7 +33,7 @@ function TeamMember({ name, role, photo, crop, isPlaceholder }) {
           <div className="absolute inset-0 transition-transform duration-700 ease-out-expo motion-safe:group-hover:scale-[1.05]">
             <img
               src={photo}
-              alt={isPlaceholder ? `${role} at Landed` : `${name}, ${role}`}
+              alt={`${name}, ${role}`}
               loading="lazy"
               style={crop && cropStyle(crop)}
               className={crop ? 'absolute max-w-none' : 'size-full object-cover'}
@@ -65,8 +63,8 @@ export default function Team() {
           </SectionTitle>
         </div>
         <ul className="grid grid-cols-2 gap-x-3.5 gap-y-8 lg:grid-cols-4">
-          {TEAM.map((member, i) => (
-            <TeamMember key={i} isPlaceholder={member.name === 'Name to come'} {...member} />
+          {TEAM.map((member) => (
+            <TeamMember key={member.name} {...member} />
           ))}
         </ul>
       </div>

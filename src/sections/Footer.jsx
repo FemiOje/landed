@@ -1,24 +1,23 @@
 import mailIcon from '../assets/icons/mail.svg'
 import pinIcon from '../assets/icons/pin.svg'
+import slackIcon from '../assets/icons/slack.svg'
 import whatsappIcon from '../assets/icons/whatsapp-light.svg'
-import { Logo } from '../components/ui'
+import { Logo, PRESSABLE } from '../components/ui'
 import externalLinkProps from '../utils/externalLinkProps'
 import { COMPANY, LINKS, WHATSAPP_DISPLAY } from '../config'
 
+// Root-relative, so they also work from the Terms and Privacy pages; on the home page they just scroll.
 const EXPLORE = [
-  { label: 'Why Landed', href: '#why-landed' },
-  { label: 'How it works', href: '#how-it-works' },
-  { label: 'Prices', href: '#prices' },
-  { label: 'Our promise', href: '#our-promise' },
-  { label: 'Key dates', href: '#key-dates' },
-  { label: 'Team', href: '#team' },
-  { label: 'Insider Map', href: '#insider-map' },
-  { label: 'FAQ', href: '#faq' },
+  { label: 'Why Landed', href: '/#why-landed' },
+  { label: 'How it works', href: '/#how-it-works' },
+  { label: 'Prices', href: '/#prices' },
+  { label: 'Our promise', href: '/#our-promise' },
+  { label: 'Key dates', href: '/#key-dates' },
+  { label: 'Team', href: '/#team' },
+  { label: 'Insider Map', href: '/#insider-map' },
+  { label: 'FAQ', href: '/#faq' },
 ]
 
-// Each item leads with an icon. Linked items show the icon in place of their label, which becomes its alt text
-// for screen readers; the location keeps its text, so its pin is decorative.
-// The phone number never splits across lines. The email may wrap in a narrow column, preferably after the "@".
 const CONTACT = [
   { label: 'WhatsApp UK', icon: whatsappIcon, value: WHATSAPP_DISPLAY, href: LINKS.whatsapp },
   { label: 'Email', icon: mailIcon, value: COMPANY.email, href: `mailto:${COMPANY.email}`, breakAnywhere: true },
@@ -47,14 +46,9 @@ function EmailWithBreak({ address }) {
   )
 }
 
-function Gold({ children }) {
-  return <span className="text-gold">{children}</span>
-}
-
 function Column({ title, width = 'lg:w-[200px]', children }) {
   return (
     <div data-reveal="up" className={`flex flex-col gap-3.5 ${width}`}>
-      {/* Figma: gold text with a 20% black fill layered on top. */}
       <h2 className="text-[14px] leading-[18px] font-medium text-[#aa8336]">{title}</h2>
       <ul className="flex flex-col gap-3 pt-1.5 font-inter text-[15px] leading-[18px]">{children}</ul>
     </div>
@@ -105,6 +99,17 @@ export default function Footer() {
                   )}
                 </li>
               ))}
+              {/* The community lives on Slack: a join button after the ways to reach us. */}
+              <li className="pt-1.5">
+                <a
+                  href={LINKS.slackJoin}
+                  {...externalLinkProps(LINKS.slackJoin)}
+                  className={`inline-flex h-10 items-center gap-2.5 rounded-full border border-white/20 px-3 font-inter text-[15px] font-medium whitespace-nowrap text-white/90 hover:border-gold hover:bg-white/5 hover:text-white sm:px-3.5 ${PRESSABLE}`}
+                >
+                  <img src={slackIcon} width="18" height="18" alt="" className="shrink-0" />
+                  Join our Slack
+                </a>
+              </li>
             </Column>
           </nav>
         </div>
@@ -120,7 +125,7 @@ export default function Footer() {
             >
               {COMPANY.number}
             </a>
-            . Registered office <Gold>[address]</Gold>. We don’t sell flights, accommodation or transport.
+            . Registered office {COMPANY.address}. We don’t sell flights, accommodation or transport.
           </p>
           <ul className="flex gap-7">
             {POLICIES.map((link) => (

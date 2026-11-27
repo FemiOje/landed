@@ -10,11 +10,6 @@ export function Logo({ className = '' }) {
   )
 }
 
-// Bracketed placeholders are highlighted in the design until the real details are known.
-export function Placeholder({ children }) {
-  return <span className="font-medium text-alert">{children}</span>
-}
-
 const EYEBROW_TONES = {
   soft: 'font-semibold text-gold-soft',
   deep: 'font-medium text-gold-text',
@@ -83,6 +78,19 @@ export function PillButton({ href = LINKS.bookCall, variant = 'outline', classNa
   )
 }
 
+// The compact gold "Book a call" button in the top bar.
+export function NavCallButton({ className = '' }) {
+  return (
+    <a
+      href={LINKS.bookCall}
+      {...externalLinkProps(LINKS.bookCall)}
+      className={`h-9 items-center rounded-full bg-gold px-4 font-inter text-[14px] font-semibold text-ink shadow-[0_2px_6px_rgba(168,122,31,0.22)] hover:opacity-90 hover:shadow-[0_8px_18px_-6px_rgba(168,122,31,0.6)] ${PRESSABLE} ${className}`}
+    >
+      Book a call
+    </a>
+  )
+}
+
 export function BookCallButton({ outlined = false, className = '' }) {
   // The outlined variant draws its 2px border inside the same 298×52 box, so padding shrinks by 2px.
   const box = outlined ? 'border-2 border-gold-ring py-3 pr-3.5 pl-[22px]' : 'py-3.5 pr-4 pl-6'
@@ -92,7 +100,7 @@ export function BookCallButton({ outlined = false, className = '' }) {
       {...externalLinkProps(LINKS.bookCall)}
       className={`group/call inline-flex items-center gap-4 rounded-[62px] bg-ink-black text-[16px] text-mist hover:opacity-90 hover:shadow-[0_10px_24px_-10px_rgba(0,0,0,0.6)] ${PRESSABLE} ${box} ${className}`}
     >
-      Book your free december call
+      Book your free December call
       <img
         src={whatsappIcon}
         width="24"

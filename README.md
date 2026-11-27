@@ -2,7 +2,7 @@
 
 Landing page for **Landed**: your December in Lagos, taken care of. Before you land, we arrange your outfit, a photoshoot, nights out with a host who knows Lagos, security and home-cooked meals.
 
-It's a single-page React site built from the Figma file "Landed" (page frame `21:2453`).
+It's a React site built from the Figma file "Landed" (page frame `21:2453`): the landing page plus Terms (`/terms`) and Privacy (`/privacy`) pages, and one serverless function for the Insider Map form.
 
 ## Stack
 
@@ -30,9 +30,19 @@ npm run dev       # start the dev server with HMR
 ## Project structure
 
 ```
+index.html             # Home page entry (and its link-preview meta tags)
+terms/index.html       # /terms entry
+privacy/index.html     # /privacy entry
+api/
+└── insider-map.js     # Vercel Function: Insider Map sign-ups → email
+public/
+└── og-image.jpg       # 1200×630 link-preview image
 src/
-├── App.jsx            # Page composition: the sections in order
-├── config.js          # External links and the form endpoint
+├── App.jsx            # Home page composition: the sections in order
+├── terms.jsx          # /terms React entry
+├── privacy.jsx        # /privacy React entry
+├── config.js          # Links, company details, form endpoint, video
+├── pages/             # LegalPage layout, Terms, Privacy
 ├── index.css          # Tailwind import, design tokens, base styles
 ├── sections/          # One component per page section
 │   ├── Hero.jsx
@@ -49,7 +59,7 @@ src/
 │   ├── FinalCta.jsx
 │   └── Footer.jsx
 ├── components/        # Shared and interactive pieces
-│   ├── ui.jsx         # Logo, Eyebrow, SectionTitle, PillButton, BookCallButton, Placeholder
+│   ├── ui.jsx         # Logo, Eyebrow, SectionTitle, PillButton, NavCallButton, BookCallButton
 │   ├── ChatPhone.jsx
 │   ├── InsiderMapForm.jsx
 │   ├── TailorCarousel.jsx
@@ -65,13 +75,30 @@ Colours and font families are defined as Tailwind theme variables in the `@theme
 
 ## Configuration
 
-Some destinations aren't in the design yet, so they're placeholders in `src/config.js`:
+Site details live in `src/config.js`:
 
-- **`LINKS`**: "Book a call", the price list, Companies House, legal pages (terms, privacy, cookies) and social profiles (Instagram, TikTok, Facebook). Replace each `'#'` with the real URL.
-- **`INSIDER_MAP_FORM_ACTION`**: the URL the Insider Map form POSTs to. While it's empty, submitting shows a "not connected" notice instead of sending anything. The form sends `name`, `email`, `arriving` and `leaving`, with dates as `DD/MM/YYYY`, and the browser checks that the leaving date isn't before the arrival date before it submits.
+- **`LINKS`**: the general "Book a call" WhatsApp link (top banner, menu, footer), the price list, Companies House, the legal pages (`/terms`, `/privacy`, and `/privacy#cookies` for cookies) and social profiles. Any left as `'#'` aren't known yet.
+- **`PACKAGE_LINKS`**: the WhatsApp link behind the booking button under each package (The Welcome, The Homecoming, The Family, Just here for the outfit, Wedding Squad). Each opens WhatsApp with a message naming the package. These are the client's exact links; don't rewrite them.
+- **`COMPANY`**: trading company name, number, registered office and contact email. The email is still a personal address until the Landed one is set up. Insider Map sign-ups are emailed to it too.
+- **`INSIDER_MAP_FORM_ACTION`**: where the Insider Map form sends entries as JSON (`/api/insider-map`). Set it to `''` to switch sign-ups off; the form then points people to WhatsApp.
+- **`ROCKY_HELLO_VIDEO`**: path to Rocky's hello video. Put the file in `public/videos/` and set e.g. `'/videos/rocky-hello.mp4'`. While it's empty, the card shows his photo with no player.
 
-Copy that hasn't been finalised is wrapped in the `<Placeholder>` component, which renders it in the alert colour so it stands out. Search for `Placeholder` to find what's still outstanding.
+Anything still waiting on the client (the Landed email, the Insider Map mail settings, the solicitor's review of the Terms, the Wedding Squad agbada/lace price, Rocky's video) is marked with a `TODO` comment. Search for `TODO` to find what's outstanding.
+
+### Environment variables
+
+| Variable | Where | What it does |
+| --- | --- | --- |
+| `SMTP_USER` | Vercel project, or `.env.local` for local testing | The Google account that sends Insider Map emails, for example the Landed mailbox. |
+| `SMTP_PASS` | Same | A 16-character [Google App Password](https://myaccount.google.com/apppasswords) for that account (2-Step Verification must be on). Not the account's normal password. Without `SMTP_USER` and `SMTP_PASS`, the function answers 503 and the form asks people to use WhatsApp. |
+| `INSIDER_MAP_TO` | Same (optional) | Who receives sign-ups. Defaults to `COMPANY.email`. |
+| `SMTP_HOST`, `SMTP_PORT` | Same (optional) | Only needed if the mail isn't sent through Google. Defaults: `smtp.gmail.com`, `465`. |
+| `VITE_SITE_URL` | Build environment | The site's public origin, e.g. `https://example.com`. It's used for the absolute `og:image`/`og:url` that WhatsApp needs for link previews. On Vercel it falls back to the production domain automatically. |
+
+### Insider Map form
+
+The form checks the fields in the browser, then POSTs `name`, `email`, `arriving` and `leaving` (dates as `DD/MM/YYYY`) to `api/insider-map.js`. The function checks them again, drops bot entries (a hidden `website` honeypot field), and emails the sign-up to `COMPANY.email`. The email's Reply-To is the visitor, so replying to it sends the guide straight to them. `npm run dev` and `npm run preview` run the same function locally.
 
 ## Deployment
 
-`npm run build` outputs a static site to `dist/`. You can deploy it to any static host, such as Netlify, Vercel, Cloudflare Pages or GitHub Pages. If you serve it from a sub-path (for example GitHub Pages at `/landed/`), set `base` in `vite.config.js` to match.
+`npm run build` outputs a static site to `dist/`, with each page at `dist/<page>/index.html`. It's set up for **Vercel**, which serves the static pages and deploys `api/insider-map.js` as a function. Any other static host works for the pages, but the Insider Map form needs that function, or `INSIDER_MAP_FORM_ACTION` pointed at another endpoint. If you serve it from a sub-path (for example GitHub Pages at `/landed/`), set `base` in `vite.config.js` to match.

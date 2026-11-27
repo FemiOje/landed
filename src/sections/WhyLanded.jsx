@@ -20,7 +20,7 @@ const FEATURES = [
   {
     icon: nightIcon,
     title: 'Your nights out',
-    body: 'A Lagos host who knows the places, plans the night and comes with you. Licensed, unarmed security on Private.',
+    body: 'A Lagos host who knows the places, plans the night and comes with you. Licensed, unarmed security on The Homecoming and The Family.',
   },
   {
     icon: ticketIcon,
@@ -35,7 +35,7 @@ const FEATURES = [
   {
     icon: homeIcon,
     title: 'Home, with your family',
-    body: "On Private: a day planned around your family, dinners from a private chef, and house help every day where you're staying.",
+    body: "On The Homecoming and The Family: a day planned around your family, home-cooked dinners, and house help every day where you're staying.",
   },
 ]
 

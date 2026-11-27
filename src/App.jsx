@@ -1,5 +1,6 @@
 import ScrollToTop from './components/ScrollToTop'
 import useScrollReveal from './hooks/useScrollReveal'
+import useScrollToHash from './hooks/useScrollToHash'
 import Comparison from './sections/Comparison'
 import Faq from './sections/Faq'
 import FinalCta from './sections/FinalCta'
@@ -18,6 +19,7 @@ import WhyLanded from './sections/WhyLanded'
 
 function App() {
   useScrollReveal()
+  useScrollToHash()
 
   return (
     <div className="flex flex-col overflow-x-clip">

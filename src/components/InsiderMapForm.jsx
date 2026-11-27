@@ -35,33 +35,61 @@ function Field({ label, icon, ref, ...inputProps }) {
   )
 }
 
+function WhatsAppLink({ children }) {
+  return (
+    <a href={LINKS.whatsapp} {...externalLinkProps(LINKS.whatsapp)} className="font-medium underline underline-offset-2">
+      {children}
+    </a>
+  )
+}
+
+// status: 'idle' | 'sending' | 'sent' | 'failed' | 'off' (no endpoint configured).
 export default function InsiderMapForm({ className = '' }) {
   const leavingRef = useRef(null)
-  const [notConnected, setNotConnected] = useState(false)
+  const [status, setStatus] = useState('idle')
+  const [sentTo, setSentTo] = useState('')
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
+    event.preventDefault()
     const form = event.currentTarget
     const arriving = parseDate(form.elements.arriving.value)
     const leaving = parseDate(form.elements.leaving.value)
 
     if (leaving < arriving) {
-      event.preventDefault()
       leavingRef.current.setCustomValidity('Your leaving date must be after your arrival date.')
       form.reportValidity()
       return
     }
 
     if (!INSIDER_MAP_FORM_ACTION) {
-      event.preventDefault()
-      setNotConnected(true)
+      setStatus('off')
+      return
+    }
+
+    const entry = Object.fromEntries(new FormData(form))
+    setStatus('sending')
+    try {
+      const response = await fetch(INSIDER_MAP_FORM_ACTION, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(entry),
+      })
+      if (!response.ok) throw new Error(`Insider Map sign-up failed with ${response.status}`)
+      setSentTo(entry.email)
+      setStatus('sent')
+      form.reset()
+    } catch (error) {
+      console.error(error)
+      setStatus('failed')
     }
   }
 
+  const sending = status === 'sending'
+
   return (
     <form
-      action={INSIDER_MAP_FORM_ACTION || undefined}
-      method="post"
       onSubmit={handleSubmit}
+      aria-busy={sending}
       className={`flex flex-col gap-[18px] rounded-[15px] bg-white px-8 py-[34px] shadow-[0_30px_60px_rgba(0,0,0,0.35)] ${className}`}
     >
       <div className="flex flex-col gap-1.5">
@@ -97,11 +125,14 @@ export default function InsiderMapForm({ className = '' }) {
           required
         />
       </div>
+      {/* Honeypot: hidden from people and screen readers, but bots fill it in. The server drops any entry that has it. */}
+      <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" />
       <button
         type="submit"
-        className={`group/submit flex h-14 cursor-pointer items-center justify-center gap-2.5 rounded-full bg-gold text-[14px] font-medium text-ink hover:opacity-90 hover:shadow-[0_10px_24px_-10px_rgba(212,164,67,0.8)] ${PRESSABLE}`}
+        disabled={sending}
+        className={`group/submit flex h-14 cursor-pointer items-center justify-center gap-2.5 rounded-full bg-gold text-[14px] font-medium text-ink hover:opacity-90 hover:shadow-[0_10px_24px_-10px_rgba(212,164,67,0.8)] disabled:cursor-wait disabled:opacity-70 ${PRESSABLE}`}
       >
-        Send me the Insider Map
+        {sending ? 'Sending…' : 'Send me the Insider Map'}
         <img
           src={arrowIcon}
           width="20"
@@ -114,15 +145,39 @@ export default function InsiderMapForm({ className = '' }) {
         <img src={lockIcon} width="18" height="18" alt="" />
         Free. No payment details needed.
       </p>
-      {notConnected && (
-        <p role="status" className="font-inter text-[13px] text-alert motion-safe:animate-fade-up">
-          Sign-ups aren't connected yet. Please{' '}
-          <a href={LINKS.whatsapp} {...externalLinkProps(LINKS.whatsapp)} className="font-medium underline underline-offset-2">
-            message us on WhatsApp
-          </a>{' '}
-          for your map.
+      {/* Grouped so the empty status region adds no gap; its messages bring their own spacing. */}
+      <div className="-mt-2.5 font-inter text-[13px] leading-5">
+        <p className="text-muted">
+          We’ll only use this to send your guide. See our{' '}
+          <a
+            href={LINKS.privacy}
+            className="font-medium text-body underline underline-offset-2 transition-colors hover:text-ink"
+          >
+            Privacy policy
+          </a>
+          .
         </p>
-      )}
+        {/* Always mounted, so screen readers announce each change of state. */}
+        <div role="status">
+          {status === 'sent' && (
+            <p className="mt-2.5 text-gold-text motion-safe:animate-fade-up">
+              Thanks. We’ll send your Insider Map to <strong className="font-semibold break-all">{sentTo}</strong>.
+            </p>
+          )}
+          {status === 'failed' && (
+            <p className="mt-2.5 text-alert motion-safe:animate-fade-up">
+              Sorry, your details didn’t send. Please try again, or{' '}
+              <WhatsAppLink>message us on WhatsApp</WhatsAppLink> for your map.
+            </p>
+          )}
+          {status === 'off' && (
+            <p className="mt-2.5 text-alert motion-safe:animate-fade-up">
+              Sign-ups aren’t connected yet. Please <WhatsAppLink>message us on WhatsApp</WhatsAppLink> for your
+              map.
+            </p>
+          )}
+        </div>
+      </div>
     </form>
   )
 }

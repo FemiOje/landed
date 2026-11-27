@@ -47,7 +47,7 @@ export default function Hero() {
             </div>
           </div>
           <p data-reveal="fade" className="text-[14px] font-medium whitespace-pre-wrap text-snow">
-            {'Prices fixed in pounds  ·  No IJGB prices  ·  Licensced Security  ·  UK company'}
+            {'Prices fixed in pounds  ·  No IJGB prices  ·  Licensed security  ·  UK company'}
           </p>
         </div>
       </div>
